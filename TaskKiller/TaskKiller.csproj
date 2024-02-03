@@ -1,0 +1,71 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <useWPF>true</useWPF>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+        <AssemblyName>Community.PowerToys.Run.Plugin.TaskKiller</AssemblyName>
+        <RootNamespace>Community.PowerToys.Run.Plugin.TaskKiller</RootNamespace>
+        <Version>$([System.Text.RegularExpressions.Regex]::Match([System.IO.File]::ReadAllText('.\plugin.json'), '"Version": "(\S+)"').Groups[1].Value)</Version>
+        <Platforms>x64;ARM64</Platforms>
+        <Title></Title>
+        <Product></Product>
+        <Authors></Authors>
+        <RepositoryUrl></RepositoryUrl>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+        <DebugSymbols>true</DebugSymbols>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)'=='Release'">
+        <DefineConstants>TRACE</DefineConstants>
+        <Optimize>true</Optimize>
+        <DebugType>pdbonly</DebugType>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Reference Include="PowerToys.Common.UI">
+            <HintPath>.\Lib\PowerToys.Common.UI.dll</HintPath>
+        </Reference>
+        <Reference Include="PowerToys.ManagedCommon">
+            <HintPath>.\Lib\PowerToys.ManagedCommon.dll</HintPath>
+        </Reference>
+        <Reference Include="PowerToys.Settings.UI.Lib">
+            <HintPath>.\Lib\PowerToys.Settings.UI.Lib.dll</HintPath>
+        </Reference>
+        <Reference Include="Wox.Infrastructure">
+            <HintPath>.\Lib\Wox.Infrastructure.dll</HintPath>
+        </Reference>
+        <Reference Include="Wox.Plugin">
+            <HintPath>.\Lib\Wox.Plugin.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Update="Properties\Resources.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <Compile Update="Properties\Resources.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Resources.resx</DependentUpon>
+        </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="plugin.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Images\*.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+</Project>

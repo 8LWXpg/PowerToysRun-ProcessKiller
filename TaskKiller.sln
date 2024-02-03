@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34525.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskKiller", "TaskKiller\TaskKiller.csproj", "{F12C4D9D-41BE-489C-9A49-D243F173D17D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM64 = Debug|ARM64
+		Debug|x64 = Debug|x64
+		Release|ARM64 = Release|ARM64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F12C4D9D-41BE-489C-9A49-D243F173D17D}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{F12C4D9D-41BE-489C-9A49-D243F173D17D}.Debug|ARM64.Build.0 = Debug|ARM64
+		{F12C4D9D-41BE-489C-9A49-D243F173D17D}.Debug|x64.ActiveCfg = Debug|x64
+		{F12C4D9D-41BE-489C-9A49-D243F173D17D}.Debug|x64.Build.0 = Debug|x64
+		{F12C4D9D-41BE-489C-9A49-D243F173D17D}.Release|ARM64.ActiveCfg = Release|ARM64
+		{F12C4D9D-41BE-489C-9A49-D243F173D17D}.Release|ARM64.Build.0 = Release|ARM64
+		{F12C4D9D-41BE-489C-9A49-D243F173D17D}.Release|x64.ActiveCfg = Release|x64
+		{F12C4D9D-41BE-489C-9A49-D243F173D17D}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A0437608-D325-4D04-B1E9-C93704962229}
+	EndGlobalSection
+EndGlobal
