@@ -5,8 +5,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-        <AssemblyName>Community.PowerToys.Run.Plugin.TaskKiller</AssemblyName>
-        <RootNamespace>Community.PowerToys.Run.Plugin.TaskKiller</RootNamespace>
+        <AssemblyName>Community.PowerToys.Run.Plugin.ProcessKiller</AssemblyName>
+        <RootNamespace>Community.PowerToys.Run.Plugin.ProcessKiller</RootNamespace>
         <Version>$([System.Text.RegularExpressions.Regex]::Match([System.IO.File]::ReadAllText('.\plugin.json'), '"Version": "(\S+)"').Groups[1].Value)</Version>
         <Platforms>x64;ARM64</Platforms>
         <Title></Title>

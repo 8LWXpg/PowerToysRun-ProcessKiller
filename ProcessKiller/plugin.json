@@ -1,0 +1,14 @@
+{
+  "ID": "78844AE082E24C0C8AC9DB222FF67317",
+  "ActionKeyword": "kl",
+  "Disabled": false,
+  "IsGlobal": false,
+  "Name": "ProcessKiller",
+  "Author": "",
+  "Version": "1.0.0",
+  "Language": "csharp",
+  "Website": "",
+  "ExecuteFileName": "Community.PowerToys.Run.Plugin.ProcessKiller.dll",
+  "IcoPathDark": "Images\\ProcessKiller.dark.png",
+  "IcoPathLight": "Images\\ProcessKiller.light.png"
+}

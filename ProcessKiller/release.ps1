@@ -1,7 +1,7 @@
 Push-Location
 Set-Location $PSScriptRoot
 
-$name = 'TaskKiller'
+$name = 'ProcessKiller'
 $assembly = "Community.PowerToys.Run.Plugin.$name"
 $version = "v$((Get-Content ./plugin.json | ConvertFrom-Json).Version)"
 $archs = @('x64', 'arm64')

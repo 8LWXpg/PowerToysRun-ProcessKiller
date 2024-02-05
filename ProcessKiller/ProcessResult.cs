@@ -4,7 +4,7 @@
 
 using System.Diagnostics;
 
-namespace Community.PowerToys.Run.Plugin.TaskKiller
+namespace Community.PowerToys.Run.Plugin.ProcessKiller
 {
     internal class ProcessResult(Process process, int score)
     {

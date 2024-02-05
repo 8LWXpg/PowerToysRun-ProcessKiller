@@ -9,7 +9,7 @@ using System.Windows.Navigation;
 using Wox.Infrastructure;
 using Wox.Plugin.Logger;
 
-namespace Community.PowerToys.Run.Plugin.TaskKiller
+namespace Community.PowerToys.Run.Plugin.ProcessKiller
 {
     internal partial class ProcessHelper
     {

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Community.PowerToys.Run.Plugin.TaskKiller.Properties {
+namespace Community.PowerToys.Run.Plugin.ProcessKiller.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Community.PowerToys.Run.Plugin.TaskKiller.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Community.PowerToys.Run.Plugin.TaskKiller.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Community.PowerToys.Run.Plugin.ProcessKiller.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,7 +61,7 @@ namespace Community.PowerToys.Run.Plugin.TaskKiller.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TaskKiller plugin.
+        ///   Looks up a localized string similar to ProcessKiller plugin.
         /// </summary>
         internal static string plugin_description {
             get {
@@ -97,7 +97,7 @@ namespace Community.PowerToys.Run.Plugin.TaskKiller.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TaskKiller.
+        ///   Looks up a localized string similar to ProcessKiller.
         /// </summary>
         internal static string plugin_name {
             get {
@@ -106,7 +106,7 @@ namespace Community.PowerToys.Run.Plugin.TaskKiller.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TaskKiller settings.
+        ///   Looks up a localized string similar to ProcessKiller settings.
         /// </summary>
         internal static string plugin_setting {
             get {

@@ -2,12 +2,12 @@
 // The Microsoft Corporation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Community.PowerToys.Run.Plugin.TaskKiller.Properties;
+using Community.PowerToys.Run.Plugin.ProcessKiller.Properties;
 using System.Windows.Controls;
 using Wox.Infrastructure;
 using Wox.Plugin;
 
-namespace Community.PowerToys.Run.Plugin.TaskKiller
+namespace Community.PowerToys.Run.Plugin.ProcessKiller
 {
     public class Main : IPlugin, IPluginI18n, IContextMenu, IReloadable, IDisposable
     {

@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="plugin_description" xml:space="preserve">
-    <value>TaskKiller plugin</value>
+    <value>ProcessKiller plugin</value>
   </data>
   <data name="plugin_kill_all" xml:space="preserve">
     <value>kill all instances of "{0}"</value>
@@ -130,9 +130,9 @@
     <value>kill all instances</value>
   </data>
   <data name="plugin_name" xml:space="preserve">
-    <value>TaskKiller</value>
+    <value>ProcessKiller</value>
   </data>
   <data name="plugin_setting" xml:space="preserve">
-    <value>TaskKiller settings</value>
+    <value>ProcessKiller settings</value>
   </data>
 </root>

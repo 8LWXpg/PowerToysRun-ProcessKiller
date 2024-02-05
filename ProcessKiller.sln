@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskKiller", "TaskKiller\TaskKiller.csproj", "{F12C4D9D-41BE-489C-9A49-D243F173D17D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProcessKiller", "ProcessKiller\ProcessKiller.csproj", "{F12C4D9D-41BE-489C-9A49-D243F173D17D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5EAAFC82-48C4-4ECE-BF15-1C0E485CA57B}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
