@@ -34,7 +34,7 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller
         private static bool IsSystemProcess(Process p) => _systemProcessList.Contains(p.ProcessName.ToLower());
 
         /// <summary>
-        /// Returns a ProcessResult for evey running non-system process whose name matches the given search
+        /// Returns a ProcessResult for every running non-system process whose name matches the given search
         /// </summary>
         public static List<ProcessResult> GetMatchingProcesses(string search)
         {
