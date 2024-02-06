@@ -1,4 +1,4 @@
-# ProcessKiller
+# ProcessKiller Plugin for PowerToys Run
 
 A [PowerToys Run](https://aka.ms/PowerToysOverview_PowerToysRun) plugin to kill processes.
 
