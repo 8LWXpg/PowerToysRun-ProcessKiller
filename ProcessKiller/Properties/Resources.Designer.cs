@@ -61,7 +61,7 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ProcessKiller plugin.
+        ///   Looks up a localized string similar to Kill a process.
         /// </summary>
         internal static string plugin_description {
             get {
