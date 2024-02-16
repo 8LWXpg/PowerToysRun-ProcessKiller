@@ -104,14 +104,5 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller.Properties {
                 return ResourceManager.GetString("plugin_name", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ProcessKiller settings.
-        /// </summary>
-        internal static string plugin_setting {
-            get {
-                return ResourceManager.GetString("plugin_setting", resourceCulture);
-            }
-        }
     }
 }

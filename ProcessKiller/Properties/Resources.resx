@@ -132,7 +132,4 @@
   <data name="plugin_name" xml:space="preserve">
     <value>ProcessKiller</value>
   </data>
-  <data name="plugin_setting" xml:space="preserve">
-    <value>ProcessKiller settings</value>
-  </data>
 </root>
