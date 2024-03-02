@@ -3,7 +3,7 @@
   "ActionKeyword": "kl",
   "Disabled": false,
   "IsGlobal": false,
-  "Name": "ProcessKiller",
+  "Name": "Process Killer",
   "Author": "",
   "Version": "1.0.1",
   "Language": "csharp",

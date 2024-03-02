@@ -130,6 +130,6 @@
     <value>kill all instances</value>
   </data>
   <data name="plugin_name" xml:space="preserve">
-    <value>ProcessKiller</value>
+    <value>Process Killer</value>
   </data>
 </root>
