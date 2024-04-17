@@ -5,7 +5,7 @@
   "IsGlobal": false,
   "Name": "Process Killer",
   "Author": "",
-  "Version": "1.0.1",
+  "Version": "1.1.0",
   "Language": "csharp",
   "Website": "",
   "ExecuteFileName": "Community.PowerToys.Run.Plugin.ProcessKiller.dll",

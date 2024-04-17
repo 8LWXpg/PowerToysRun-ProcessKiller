@@ -121,15 +121,18 @@
     <value>Kill a process</value>
   </data>
   <data name="plugin_kill_all" xml:space="preserve">
-    <value>kill all instances of "{0}"</value>
+    <value>Kill all instances of "{0}"</value>
   </data>
   <data name="plugin_kill_all_count" xml:space="preserve">
-    <value>kill {0} processes</value>
+    <value>Kill {0} processes</value>
   </data>
   <data name="plugin_kill_instances" xml:space="preserve">
-    <value>kill all instances</value>
+    <value>Kill all instances</value>
   </data>
   <data name="plugin_name" xml:space="preserve">
     <value>Process Killer</value>
+  </data>
+  <data name="plugin_setting_kill_all_count" xml:space="preserve">
+    <value>Minimun matches to show "Kill all instances"</value>
   </data>
 </root>

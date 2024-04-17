@@ -3,30 +3,38 @@
 // See the LICENSE file in the project root for more information.
 
 using Community.PowerToys.Run.Plugin.ProcessKiller.Properties;
+using Microsoft.PowerToys.Settings.UI.Library;
 using System.Windows.Controls;
 using Wox.Infrastructure;
 using Wox.Plugin;
 
 namespace Community.PowerToys.Run.Plugin.ProcessKiller
 {
-    public class Main : IPlugin, IPluginI18n, IContextMenu, IReloadable, IDisposable
+    public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDisposable
     {
         private PluginInitContext _context;
 
         private bool _disposed;
 
         public string Name => Resources.plugin_name;
-
         public string Description => Resources.plugin_description;
-
         public static string PluginID => "78844AE082E24C0C8AC9DB222FF67317";
 
-        public List<ContextMenuResult> LoadContextMenus(Result selectedResult)
-        {
-            return [];
-        }
+        private const string KillAllCount = nameof(KillAllCount);
+        private int? _killAllCount;
 
-        // TODO: return query results
+        public IEnumerable<PluginAdditionalOption> AdditionalOptions => new List<PluginAdditionalOption>()
+        {
+            new()
+            {
+                PluginOptionType = PluginAdditionalOption.AdditionalOptionType.Numberbox,
+                Key = KillAllCount,
+                DisplayLabel = Resources.plugin_setting_kill_all_count,
+                NumberValue = 5,
+                NumberBoxMin = 2,
+            }
+        };
+
         public List<Result> Query(Query query)
         {
             string search = query.Search;
@@ -62,7 +70,7 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller
             // When there are multiple results AND all of them are instances of the same executable
             // add a quick option to kill them all at the top of the results.
             var firstResult = sortedResults.FirstOrDefault(x => !string.IsNullOrEmpty(x.SubTitle));
-            if (processes.Count > 1 && !string.IsNullOrEmpty(search) && sortedResults.All(r => r.SubTitle == firstResult?.SubTitle))
+            if (processes.Count > 1 && !string.IsNullOrEmpty(search) && sortedResults.Count(r => r.SubTitle == firstResult?.SubTitle) >= _killAllCount)
             {
                 sortedResults.Insert(1, new Result()
                 {
@@ -86,6 +94,11 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller
         public void Init(PluginInitContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
+        }
+
+        public void UpdateSettings(PowerLauncherPluginSettings settings)
+        {
+            _killAllCount = (int?)(settings?.AdditionalOptions?.FirstOrDefault(x => x.Key == KillAllCount)?.NumberValue) ?? 5;
         }
 
         public string GetTranslatedPluginTitle()

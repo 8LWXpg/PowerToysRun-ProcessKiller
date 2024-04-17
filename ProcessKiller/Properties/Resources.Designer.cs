@@ -70,7 +70,7 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to kill all instances of &quot;{0}&quot;.
+        ///   Looks up a localized string similar to Kill all instances of &quot;{0}&quot;.
         /// </summary>
         internal static string plugin_kill_all {
             get {
@@ -79,7 +79,7 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to kill {0} processes.
+        ///   Looks up a localized string similar to Kill {0} processes.
         /// </summary>
         internal static string plugin_kill_all_count {
             get {
@@ -88,7 +88,7 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to kill all instances.
+        ///   Looks up a localized string similar to Kill all instances.
         /// </summary>
         internal static string plugin_kill_instances {
             get {
@@ -97,11 +97,20 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ProcessKiller.
+        ///   Looks up a localized string similar to Process Killer.
         /// </summary>
         internal static string plugin_name {
             get {
                 return ResourceManager.GetString("plugin_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minimun matches to show &quot;Kill all instances&quot;.
+        /// </summary>
+        internal static string plugin_setting_kill_all_count {
+            get {
+                return ResourceManager.GetString("plugin_setting_kill_all_count", resourceCulture);
             }
         }
     }
