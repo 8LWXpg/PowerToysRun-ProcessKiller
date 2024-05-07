@@ -35,6 +35,11 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller
             }
         };
 
+        public void UpdateSettings(PowerLauncherPluginSettings settings)
+        {
+            _killAllCount = (int?)(settings?.AdditionalOptions?.FirstOrDefault(x => x.Key == KillAllCount)?.NumberValue) ?? 5;
+        }
+
         public List<Result> Query(Query query)
         {
             string search = query.Search;
@@ -94,11 +99,6 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller
         public void Init(PluginInitContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
-        }
-
-        public void UpdateSettings(PowerLauncherPluginSettings settings)
-        {
-            _killAllCount = (int?)(settings?.AdditionalOptions?.FirstOrDefault(x => x.Key == KillAllCount)?.NumberValue) ?? 5;
         }
 
         public string GetTranslatedPluginTitle()
