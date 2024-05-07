@@ -1,7 +1,3 @@
-// Copyright (c) Microsoft Corporation
-// The Microsoft Corporation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
-
 using Community.PowerToys.Run.Plugin.ProcessKiller.Properties;
 using Microsoft.PowerToys.Settings.UI.Library;
 using System.Windows.Controls;
@@ -12,7 +8,7 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller
 {
     public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDisposable
     {
-        private PluginInitContext _context;
+        private PluginInitContext? _context;
 
         private bool _disposed;
 
@@ -43,17 +39,17 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller
         public List<Result> Query(Query query)
         {
             string search = query.Search;
-            var processes = ProcessHelper.GetMatchingProcesses(search);
+            List<ProcessResult> processes = ProcessHelper.GetMatchingProcesses(search);
 
             if (processes.Count == 0)
             {
                 return [];
             }
 
-            var sortedResults = processes.ConvertAll(pr =>
+            List<Result> sortedResults = processes.ConvertAll(pr =>
                 {
-                    var p = pr.Process;
-                    var path = ProcessHelper.TryGetProcessFilename(p);
+                    System.Diagnostics.Process p = pr.Process;
+                    string path = ProcessHelper.TryGetProcessFilename(p);
                     return new Result()
                     {
                         IcoPath = path,
@@ -74,7 +70,7 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller
 
             // When there are multiple results AND all of them are instances of the same executable
             // add a quick option to kill them all at the top of the results.
-            var firstResult = sortedResults.FirstOrDefault(x => !string.IsNullOrEmpty(x.SubTitle));
+            Result? firstResult = sortedResults.FirstOrDefault(x => !string.IsNullOrEmpty(x.SubTitle));
             if (processes.Count > 1 && !string.IsNullOrEmpty(search) && sortedResults.Count(r => r.SubTitle == firstResult?.SubTitle) >= _killAllCount)
             {
                 sortedResults.Insert(1, new Result()
