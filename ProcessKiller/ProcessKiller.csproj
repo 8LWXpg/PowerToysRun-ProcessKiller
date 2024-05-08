@@ -9,10 +9,10 @@
         <RootNamespace>Community.PowerToys.Run.Plugin.ProcessKiller</RootNamespace>
         <Version>$([System.Text.RegularExpressions.Regex]::Match([System.IO.File]::ReadAllText('.\plugin.json'), '"Version": "(\S+)"').Groups[1].Value)</Version>
         <Platforms>x64;ARM64</Platforms>
-        <Title></Title>
-        <Product></Product>
-        <Authors></Authors>
-        <RepositoryUrl></RepositoryUrl>
+        <Title>Powertoys Run ProcessKiller</Title>
+        <Product>Powertoys Run ProcessKiller Plugin</Product>
+        <Authors>8LWXpg</Authors>
+        <RepositoryUrl>https://github.com/8LWXpg/PowerToysRun-ProcessKiller</RepositoryUrl>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
