@@ -19,8 +19,8 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller
         private const string KillAllCount = nameof(KillAllCount);
         private int? _killAllCount;
 
-        public IEnumerable<PluginAdditionalOption> AdditionalOptions => new List<PluginAdditionalOption>()
-        {
+        public IEnumerable<PluginAdditionalOption> AdditionalOptions =>
+        [
             new()
             {
                 PluginOptionType = PluginAdditionalOption.AdditionalOptionType.Numberbox,
@@ -29,16 +29,13 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller
                 NumberValue = 5,
                 NumberBoxMin = 2,
             }
-        };
+        ];
 
-        public void UpdateSettings(PowerLauncherPluginSettings settings)
-        {
-            _killAllCount = (int?)(settings?.AdditionalOptions?.FirstOrDefault(x => x.Key == KillAllCount)?.NumberValue) ?? 5;
-        }
+        public void UpdateSettings(PowerLauncherPluginSettings settings) => _killAllCount = (int?)(settings?.AdditionalOptions?.FirstOrDefault(x => x.Key == KillAllCount)?.NumberValue) ?? 5;
 
         public List<Result> Query(Query query)
         {
-            string search = query.Search;
+            var search = query.Search;
             List<ProcessResult> processes = ProcessHelper.GetMatchingProcesses(search);
 
             if (processes.Count == 0)
@@ -46,10 +43,10 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller
                 return [];
             }
 
-            List<Result> sortedResults = processes.ConvertAll(pr =>
+            var sortedResults = processes.ConvertAll(pr =>
                 {
                     System.Diagnostics.Process p = pr.Process;
-                    string path = ProcessHelper.TryGetProcessFilename(p);
+                    var path = ProcessHelper.TryGetProcessFilename(p);
                     return new Result()
                     {
                         IcoPath = path,
@@ -92,25 +89,13 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller
             return sortedResults;
         }
 
-        public void Init(PluginInitContext context)
-        {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
-        }
+        public void Init(PluginInitContext context) => _context = context ?? throw new ArgumentNullException(nameof(context));
 
-        public string GetTranslatedPluginTitle()
-        {
-            return Resources.plugin_name;
-        }
+        public string GetTranslatedPluginTitle() => Resources.plugin_name;
 
-        public string GetTranslatedPluginDescription()
-        {
-            return Resources.plugin_description;
-        }
+        public string GetTranslatedPluginDescription() => Resources.plugin_description;
 
-        public Control CreateSettingPanel()
-        {
-            throw new NotImplementedException();
-        }
+        public Control CreateSettingPanel() => throw new NotImplementedException();
 
         public void ReloadData()
         {

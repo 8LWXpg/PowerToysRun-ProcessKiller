@@ -1,11 +1,6 @@
-﻿// Copyright (c) Microsoft Corporation
-// The Microsoft Corporation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
-
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Windows.Navigation;
 using Wox.Infrastructure;
 using Wox.Plugin.Logger;
 
@@ -13,7 +8,7 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller
 {
     internal partial class ProcessHelper
     {
-        private static readonly HashSet<string> _systemProcessList =
+        private static readonly HashSet<string> SystemProcessList =
         [
             "conhost",
             "svchost",
@@ -31,7 +26,7 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller
             "explorer",
         ];
 
-        private static bool IsSystemProcess(Process p) => _systemProcessList.Contains(p.ProcessName.ToLower());
+        private static bool IsSystemProcess(Process p) => SystemProcessList.Contains(p.ProcessName.ToLower());
 
         /// <summary>
         /// Returns a ProcessResult for every running non-system process whose name matches the given search
@@ -46,7 +41,7 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller
             }
 
             List<ProcessResult> results = [];
-            foreach (var p in processes)
+            foreach (Process? p in processes)
             {
                 var score = StringMatcher.FuzzySearch(search, p.ProcessName + p.Id).Score;
                 if (score > 0)
@@ -54,6 +49,7 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller
                     results.Add(new ProcessResult(p, score));
                 }
             }
+
             return results;
         }
 
@@ -70,7 +66,7 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller
                 if (!p.HasExited)
                 {
                     p.Kill();
-                    p.WaitForExit(50);
+                    _ = p.WaitForExit(50);
                 }
             }
             catch (Exception e)
@@ -83,9 +79,9 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller
         {
             try
             {
-                int capacity = 2000;
+                var capacity = 2000;
                 StringBuilder builder = new(capacity);
-                IntPtr ptr = OpenProcess(ProcessAccessFlags.QueryLimitedInformation, false, p.Id);
+                var ptr = OpenProcess(ProcessAccessFlags.QueryLimitedInformation, false, p.Id);
                 return QueryFullProcessImageName(ptr, 0, builder, ref capacity) ? builder.ToString() : string.Empty;
             }
             catch
