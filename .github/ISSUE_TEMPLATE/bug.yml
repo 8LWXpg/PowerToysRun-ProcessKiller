@@ -1,0 +1,15 @@
+name: 🐞 Bug report
+description: Report a bug in the application
+
+labels:
+  - bug
+
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Please provide a clear and concise description of the bug you are experiencing.
+    validations:
+      required: true
+

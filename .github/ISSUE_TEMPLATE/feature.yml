@@ -1,0 +1,21 @@
+name: ✨ Feature request
+description: Suggest a new feature or enhancement for the extension
+
+labels:
+  - enhancement
+
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Provide a clear and concise description of the feature you are requesting.
+    validations:
+      required: true
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Use case
+      description: Describe the use case for this feature.
+    validations:
+      required: true
