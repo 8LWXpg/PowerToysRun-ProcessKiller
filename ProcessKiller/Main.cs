@@ -59,7 +59,7 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller
                         {
                             ProcessHelper.TryKill(p);
                             // Re-query to refresh process list
-                            _context.API.ChangeQuery(query.RawQuery, true);
+                            _context!.API.ChangeQuery(query.RawQuery, true);
                             return true;
                         }
                     };
@@ -80,7 +80,7 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller
                     {
                         processes.ForEach(p => ProcessHelper.TryKill(p.Process));
                         // Re-query to refresh process list
-                        _context.API.ChangeQuery(query.RawQuery, true);
+                        _context!.API.ChangeQuery(query.RawQuery, true);
                         return true;
                     }
                 });

@@ -40,4 +40,6 @@ Most of the code is from FlowLauncher Plugin [ProcessKiller](https://github.com/
 
 ## Contributing
 
-Contributions are welcome!
+### Localization
+
+If you want to help localize this plugin, please check the [localization guide](./Localization.md)
