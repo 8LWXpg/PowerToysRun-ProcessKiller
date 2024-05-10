@@ -9,4 +9,5 @@
 1. Copy `./ProcessKiller/Properties/Resources.resx` to `./ProcessKiller/Properties/Resources.<locale>.resx`.
 1. Change the `Value`s to the translated text.
 1. Add `"$releasePath/<locale>"` to the `$items` array in `./ProcessKiller/release.ps1`.
+   https://github.com/8LWXpg/PowerToysRun-ProcessKiller/blob/bc8a9932df1800b1577ac673ac10795047590b48/ProcessKiller/release.ps1#L19-L24
 1. Commit the change and submit a PR.
