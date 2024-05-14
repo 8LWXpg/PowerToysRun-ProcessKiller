@@ -17,10 +17,10 @@ foreach ($arch in $archs) {
 
 	Remove-Item "./out/$name/*" -Recurse -Force -ErrorAction Ignore
 	$items = @(
+		"$releasePath/$assembly.deps.json",
 		"$releasePath/$assembly.dll",
 		"$releasePath/plugin.json",
 		"$releasePath/Images",
-		"$releasePath/$assembly.deps.json",
 		"$releasePath/pl-PL"
 	)
 	Copy-Item $items "./out/$name" -Recurse -Force
