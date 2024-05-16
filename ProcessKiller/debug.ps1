@@ -4,7 +4,7 @@ Push-Location
 Set-Location $PSScriptRoot
 
 sudo {
-	Start-Job { Stop-Process -Name PowerToys* } | Wait-Job
+	Start-Job { Stop-Process -Name PowerToys* } | Wait-Job > $null
 
 	# change this to your PowerToys installation path
 	$ptPath = 'C:\Program Files\PowerToys'
