@@ -4,6 +4,8 @@ A [PowerToys Run](https://aka.ms/PowerToysOverview_PowerToysRun) plugin to kill 
 
 Most of the code is from FlowLauncher Plugin [ProcessKiller](https://github.com/Flow-Launcher/Flow.Launcher/tree/dev/Plugins/Flow.Launcher.Plugin.ProcessKiller).
 
+Checkout the [Template](https://github.com/8LWXpg/PowerToysRun-PluginTemplate) for a starting point to create your own plugin.
+
 ## Features
 
 ### Kill a process
