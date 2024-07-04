@@ -1,11 +1,10 @@
 using System.Diagnostics;
 
-namespace Community.PowerToys.Run.Plugin.ProcessKiller
-{
-	internal class ProcessResult(Process process, int score)
-	{
-		public Process Process { get; } = process;
+namespace Community.PowerToys.Run.Plugin.ProcessKiller;
 
-		public int Score { get; } = score;
-	}
+internal class ProcessResult(Process process, int score)
+{
+	public Process Process { get; } = process;
+
+	public int Score { get; } = score;
 }
