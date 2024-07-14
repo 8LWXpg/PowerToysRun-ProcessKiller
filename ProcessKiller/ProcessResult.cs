@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Management;
 using System.Runtime.InteropServices;
 using System.Text;
 using Wox.Plugin.Common.Win32;
@@ -14,6 +15,9 @@ internal class ProcessResult
 	/// </summary>
 	public int Score { get; }
 
+	/// <summary>
+	/// Fuzzy search match data
+	/// </summary>
 	public List<int>? MatchData { get; }
 
 	/// <summary>
@@ -21,19 +25,23 @@ internal class ProcessResult
 	/// </summary>
 	public string Path { get; }
 
-	public ProcessResult(Process process, int score, List<int> matchData)
+	public string? CommandLine { get; }
+
+	public ProcessResult(Process process, int score, List<int> matchData, CommandLineQuery commandLineQuery)
 	{
 		Process = process;
 		Score = score;
 		MatchData = matchData;
 		Path = TryGetProcessFilename(process);
+		CommandLine = commandLineQuery.GetCommandLine(process.Id);
 	}
 
-	public ProcessResult(Process process)
+	public ProcessResult(Process process, CommandLineQuery commandLineQuery)
 	{
 		Process = process;
 		Score = 0;
 		Path = TryGetProcessFilename(process);
+		CommandLine = commandLineQuery.GetCommandLine(process.Id);
 	}
 
 	private static string TryGetProcessFilename(Process p)
@@ -49,6 +57,14 @@ internal class ProcessResult
 		{
 			return string.Empty;
 		}
+	}
+
+	private static string GetCommandLine(int processId)
+	{
+		var query = $"SELECT CommandLine FROM Win32_Process WHERE ProcessId = {processId}";
+		var searcher = new ManagementObjectSearcher(query);
+		ManagementObjectCollection objects = searcher.Get();
+		return objects.Cast<ManagementBaseObject>().SingleOrDefault()?[nameof(CommandLine)]?.ToString() ?? string.Empty;
 	}
 
 	[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]

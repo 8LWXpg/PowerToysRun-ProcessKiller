@@ -55,6 +55,7 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 					TitleHighlightData = pr.MatchData,
 					Score = pr.Score,
 					ContextData = p.ProcessName,
+					ToolTipData = new ToolTipData(p.ProcessName, pr.CommandLine),
 					Action = c =>
 					{
 						ProcessHelper.TryKill(p);
@@ -64,6 +65,7 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 					}
 				};
 			});
+		sortedResults.Reverse();
 
 		// When there are multiple results AND all of them are instances of the same executable
 		// add a quick option to kill them all at the top of the results.

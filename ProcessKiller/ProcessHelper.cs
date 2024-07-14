@@ -32,10 +32,11 @@ internal partial class ProcessHelper
 	public static List<ProcessResult> GetMatchingProcesses(string search)
 	{
 		var processes = Process.GetProcesses().Where(p => !IsSystemProcess(p)).ToList();
+		var commandLineQuery = new CommandLineQuery();
 
 		if (string.IsNullOrWhiteSpace(search))
 		{
-			return processes.ConvertAll(p => new ProcessResult(p));
+			return processes.ConvertAll(p => new ProcessResult(p, commandLineQuery));
 		}
 
 		List<ProcessResult> results = [];
@@ -45,7 +46,7 @@ internal partial class ProcessHelper
 			var score = matchResult.Score;
 			if (score > 0)
 			{
-				results.Add(new ProcessResult(p, score, matchResult.MatchData));
+				results.Add(new ProcessResult(p, score, matchResult.MatchData, commandLineQuery));
 			}
 		}
 
