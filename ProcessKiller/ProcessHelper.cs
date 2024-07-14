@@ -22,6 +22,8 @@ internal partial class ProcessHelper
 		"services",
 		"spoolsv",
 		"explorer",
+		// Used by this Plugin
+		"wmiprvse",
 	];
 
 	private static bool IsSystemProcess(Process p) => SystemProcessList.Contains(p.ProcessName.ToLower());
