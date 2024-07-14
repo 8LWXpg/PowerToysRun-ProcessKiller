@@ -1,8 +1,5 @@
 using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Text;
 using Wox.Infrastructure;
-using Wox.Plugin.Common.Win32;
 using Wox.Plugin.Logger;
 
 namespace Community.PowerToys.Run.Plugin.ProcessKiller;
@@ -54,12 +51,6 @@ internal partial class ProcessHelper
 		return results;
 	}
 
-	/// <summary>
-	/// Returns all non-system processes whose file path matches the given processPath
-	/// </summary>
-	public static IEnumerable<Process> GetSimilarProcesses(string processPath) =>
-		Process.GetProcesses().Where(p => !IsSystemProcess(p) && TryGetProcessFilename(p) == processPath);
-
 	public static void TryKill(Process p)
 	{
 		try
@@ -75,26 +66,4 @@ internal partial class ProcessHelper
 			Log.Exception($"Failed to kill process {p.ProcessName}", e, typeof(ProcessHelper));
 		}
 	}
-
-	public static string TryGetProcessFilename(Process p)
-	{
-		try
-		{
-			var capacity = 2000;
-			StringBuilder builder = new(capacity);
-			var ptr = NativeMethods.OpenProcess(ProcessAccessFlags.QueryLimitedInformation, false, p.Id);
-			return QueryFullProcessImageName(ptr, 0, builder, ref capacity) ? builder.ToString() : string.Empty;
-		}
-		catch
-		{
-			return string.Empty;
-		}
-	}
-
-	[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-	private static extern bool QueryFullProcessImageName(
-		[In] IntPtr hProcess,
-		[In] int dwFlags,
-		[Out] StringBuilder lpExeName,
-		ref int lpdwSize);
 }

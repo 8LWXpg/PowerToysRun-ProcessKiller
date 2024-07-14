@@ -1,5 +1,6 @@
 using Community.PowerToys.Run.Plugin.ProcessKiller.Properties;
 using Microsoft.PowerToys.Settings.UI.Library;
+using System.Diagnostics;
 using System.Windows.Controls;
 using Wox.Infrastructure;
 using Wox.Plugin;
@@ -43,10 +44,10 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 			return [];
 		}
 
-		var sortedResults = processes.ConvertAll(pr =>
+		List<Result> sortedResults = processes.ConvertAll(pr =>
 			{
-				System.Diagnostics.Process p = pr.Process;
-				var path = ProcessHelper.TryGetProcessFilename(p);
+				Process p = pr.Process;
+				var path = pr.Path;
 				return new Result()
 				{
 					IcoPath = path,
@@ -63,7 +64,7 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 						return true;
 					}
 				};
-			}).OrderBy(x => x.Title).ToList();
+			});
 
 		// When there are multiple results AND all of them are instances of the same executable
 		// add a quick option to kill them all at the top of the results.
