@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 using Wox.Infrastructure;
+using Wox.Plugin.Common.Win32;
 using Wox.Plugin.Logger;
 
 namespace Community.PowerToys.Run.Plugin.ProcessKiller;
@@ -81,7 +82,7 @@ internal partial class ProcessHelper
 		{
 			var capacity = 2000;
 			StringBuilder builder = new(capacity);
-			var ptr = OpenProcess(ProcessAccessFlags.QueryLimitedInformation, false, p.Id);
+			var ptr = NativeMethods.OpenProcess(ProcessAccessFlags.QueryLimitedInformation, false, p.Id);
 			return QueryFullProcessImageName(ptr, 0, builder, ref capacity) ? builder.ToString() : string.Empty;
 		}
 		catch
@@ -90,22 +91,10 @@ internal partial class ProcessHelper
 		}
 	}
 
-	[Flags]
-	private enum ProcessAccessFlags : uint
-	{
-		QueryLimitedInformation = 0x00001000
-	}
-
 	[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
 	private static extern bool QueryFullProcessImageName(
 		[In] IntPtr hProcess,
 		[In] int dwFlags,
 		[Out] StringBuilder lpExeName,
 		ref int lpdwSize);
-
-	[LibraryImport("kernel32.dll", SetLastError = true)]
-	private static partial IntPtr OpenProcess(
-		ProcessAccessFlags processAccess,
-		[MarshalAs(UnmanagedType.Bool)] bool bInheritHandle,
-		int processId);
 }
