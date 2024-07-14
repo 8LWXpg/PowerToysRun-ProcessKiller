@@ -1,9 +1,13 @@
 using System.Management;
 
 namespace Community.PowerToys.Run.Plugin.ProcessKiller;
+/// <summary>
+/// Query all running processes and their command lines using WMI.
+/// A lot faster then querying each process individually
+/// </summary>
 internal class CommandLineQuery
 {
-	public readonly Dictionary<int, string> query = [];
+	public readonly Dictionary<int, string?> query = [];
 
 	public CommandLineQuery()
 	{
@@ -12,7 +16,7 @@ internal class CommandLineQuery
 		foreach (ManagementBaseObject? obj in searcher.Get())
 		{
 			var processId = Convert.ToInt32(obj["ProcessId"]);
-			var commandLine = obj["CommandLine"]?.ToString() ?? string.Empty;
+			var commandLine = obj["CommandLine"]?.ToString();
 			this.query[processId] = commandLine;
 		}
 	}

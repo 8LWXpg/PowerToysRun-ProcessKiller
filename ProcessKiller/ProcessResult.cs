@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using System.Management;
 using System.Runtime.InteropServices;
 using System.Text;
 using Wox.Plugin.Common.Win32;
@@ -57,14 +56,6 @@ internal class ProcessResult
 		{
 			return string.Empty;
 		}
-	}
-
-	private static string GetCommandLine(int processId)
-	{
-		var query = $"SELECT CommandLine FROM Win32_Process WHERE ProcessId = {processId}";
-		var searcher = new ManagementObjectSearcher(query);
-		ManagementObjectCollection objects = searcher.Get();
-		return objects.Cast<ManagementBaseObject>().SingleOrDefault()?[nameof(CommandLine)]?.ToString() ?? string.Empty;
 	}
 
 	[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
