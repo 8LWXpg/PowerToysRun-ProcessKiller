@@ -2,7 +2,6 @@ using Community.PowerToys.Run.Plugin.ProcessKiller.Properties;
 using Microsoft.PowerToys.Settings.UI.Library;
 using System.Diagnostics;
 using System.Windows.Controls;
-using Wox.Infrastructure;
 using Wox.Plugin;
 
 namespace Community.PowerToys.Run.Plugin.ProcessKiller;
@@ -53,7 +52,7 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 					IcoPath = path,
 					Title = $"{p.ProcessName} - {p.Id}",
 					SubTitle = path,
-					TitleHighlightData = StringMatcher.FuzzySearch(search, p.ProcessName).MatchData,
+					TitleHighlightData = pr.MatchData,
 					Score = pr.Score,
 					ContextData = p.ProcessName,
 					Action = c =>

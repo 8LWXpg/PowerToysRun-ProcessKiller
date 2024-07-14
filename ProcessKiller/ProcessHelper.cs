@@ -35,16 +35,17 @@ internal partial class ProcessHelper
 
 		if (string.IsNullOrWhiteSpace(search))
 		{
-			return processes.ConvertAll(p => new ProcessResult(p, 0));
+			return processes.ConvertAll(p => new ProcessResult(p));
 		}
 
 		List<ProcessResult> results = [];
 		foreach (Process? p in processes)
 		{
-			var score = StringMatcher.FuzzySearch(search, p.ProcessName + p.Id).Score;
+			MatchResult matchResult = StringMatcher.FuzzySearch(search, $"{p.ProcessName} - {p.Id}");
+			var score = matchResult.Score;
 			if (score > 0)
 			{
-				results.Add(new ProcessResult(p, score));
+				results.Add(new ProcessResult(p, score, matchResult.MatchData));
 			}
 		}
 

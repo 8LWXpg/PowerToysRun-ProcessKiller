@@ -5,19 +5,36 @@ using Wox.Plugin.Common.Win32;
 
 namespace Community.PowerToys.Run.Plugin.ProcessKiller;
 
-internal class ProcessResult(Process process, int score)
+internal class ProcessResult
 {
-	public Process Process { get; } = process;
+	public Process Process { get; }
 
 	/// <summary>
 	/// Fuzzy search score
 	/// </summary>
-	public int Score { get; } = score;
+	public int Score { get; }
+
+	public List<int>? MatchData { get; }
 
 	/// <summary>
 	/// Full path to the process executable
 	/// </summary>
-	public string Path { get; } = TryGetProcessFilename(process);
+	public string Path { get; }
+
+	public ProcessResult(Process process, int score, List<int> matchData)
+	{
+		Process = process;
+		Score = score;
+		MatchData = matchData;
+		Path = TryGetProcessFilename(process);
+	}
+
+	public ProcessResult(Process process)
+	{
+		Process = process;
+		Score = 0;
+		Path = TryGetProcessFilename(process);
+	}
 
 	private static string TryGetProcessFilename(Process p)
 	{
