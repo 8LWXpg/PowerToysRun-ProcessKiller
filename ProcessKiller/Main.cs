@@ -17,7 +17,9 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 	public static string PluginID => "78844AE082E24C0C8AC9DB222FF67317";
 
 	private const string KillAllCount = nameof(KillAllCount);
+	private const string ShowCommandLine = nameof(ShowCommandLine);
 	private int? _killAllCount;
+	private bool _showCommandLine;
 
 	public IEnumerable<PluginAdditionalOption> AdditionalOptions =>
 	[
@@ -28,15 +30,25 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 			DisplayLabel = Resources.plugin_setting_kill_all_count,
 			NumberValue = 5,
 			NumberBoxMin = 2,
+		},
+		new()
+		{
+			PluginOptionType= PluginAdditionalOption.AdditionalOptionType.Checkbox,
+			Key = ShowCommandLine,
+			DisplayLabel = Resources.plugin_setting_show_command_line,
 		}
 	];
 
-	public void UpdateSettings(PowerLauncherPluginSettings settings) => _killAllCount = (int?)(settings?.AdditionalOptions?.FirstOrDefault(x => x.Key == KillAllCount)?.NumberValue) ?? 5;
+	public void UpdateSettings(PowerLauncherPluginSettings settings)
+	{
+		_killAllCount = (int?)(settings?.AdditionalOptions?.FirstOrDefault(x => x.Key == KillAllCount)?.NumberValue) ?? 5;
+		_showCommandLine = settings?.AdditionalOptions?.FirstOrDefault(x => x.Key == ShowCommandLine)?.Value ?? false;
+	}
 
 	public List<Result> Query(Query query)
 	{
 		var search = query.Search;
-		List<ProcessResult> processes = ProcessHelper.GetMatchingProcesses(search);
+		List<ProcessResult> processes = ProcessHelper.GetMatchingProcesses(search, _showCommandLine);
 
 		if (processes.Count == 0)
 		{

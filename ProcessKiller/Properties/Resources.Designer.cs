@@ -61,7 +61,7 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Kill a process.
+        ///   Looks up a localized string similar to Kill a process..
         /// </summary>
         internal static string plugin_description {
             get {
@@ -111,6 +111,15 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller.Properties {
         internal static string plugin_setting_kill_all_count {
             get {
                 return ResourceManager.GetString("plugin_setting_kill_all_count", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show command line of the process, this makes the plugin slower..
+        /// </summary>
+        internal static string plugin_setting_show_command_line {
+            get {
+                return ResourceManager.GetString("plugin_setting_show_command_line", resourceCulture);
             }
         }
     }

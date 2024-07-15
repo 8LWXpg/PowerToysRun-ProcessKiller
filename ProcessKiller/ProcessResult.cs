@@ -35,12 +35,27 @@ internal class ProcessResult
 		CommandLine = commandLineQuery.GetCommandLine(process.Id);
 	}
 
+	public ProcessResult(Process process, int score, List<int> matchData)
+	{
+		Process = process;
+		Score = score;
+		MatchData = matchData;
+		Path = TryGetProcessFilename(process);
+	}
+
 	public ProcessResult(Process process, CommandLineQuery commandLineQuery)
 	{
 		Process = process;
 		Score = 0;
 		Path = TryGetProcessFilename(process);
 		CommandLine = commandLineQuery.GetCommandLine(process.Id);
+	}
+
+	public ProcessResult(Process process)
+	{
+		Process = process;
+		Score = 0;
+		Path = TryGetProcessFilename(process);
 	}
 
 	private static string TryGetProcessFilename(Process p)

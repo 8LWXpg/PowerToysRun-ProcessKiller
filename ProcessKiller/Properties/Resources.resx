@@ -135,4 +135,7 @@
   <data name="plugin_setting_kill_all_count" xml:space="preserve">
     <value>Minimun matches to show "Kill all instances"</value>
   </data>
+  <data name="plugin_setting_show_command_line" xml:space="preserve">
+    <value>Show command line of the process, this makes the plugin slower.</value>
+  </data>
 </root>
