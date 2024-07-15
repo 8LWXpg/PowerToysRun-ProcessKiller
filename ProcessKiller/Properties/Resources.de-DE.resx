@@ -148,6 +148,6 @@
     <value>Hauptfenster</value>
   </data>
   <data name="plugin_tool_tip_command_line" xml:space="preserve">
-    <value>Kommandozeile</value>
+    <value>Befehlszeile</value>
   </data>
 </root>
