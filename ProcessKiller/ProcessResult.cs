@@ -14,6 +14,9 @@ internal class ProcessResult
 	/// </summary>
 	public int Score { get; }
 
+	/// <summary>
+	/// Fuzzy search match data
+	/// </summary>
 	public List<int>? MatchData { get; }
 
 	/// <summary>
@@ -21,12 +24,31 @@ internal class ProcessResult
 	/// </summary>
 	public string Path { get; }
 
+	public string? CommandLine { get; }
+
+	public ProcessResult(Process process, int score, List<int> matchData, CommandLineQuery commandLineQuery)
+	{
+		Process = process;
+		Score = score;
+		MatchData = matchData;
+		Path = TryGetProcessFilename(process);
+		CommandLine = commandLineQuery.GetCommandLine(process.Id);
+	}
+
 	public ProcessResult(Process process, int score, List<int> matchData)
 	{
 		Process = process;
 		Score = score;
 		MatchData = matchData;
 		Path = TryGetProcessFilename(process);
+	}
+
+	public ProcessResult(Process process, CommandLineQuery commandLineQuery)
+	{
+		Process = process;
+		Score = 0;
+		Path = TryGetProcessFilename(process);
+		CommandLine = commandLineQuery.GetCommandLine(process.Id);
 	}
 
 	public ProcessResult(Process process)

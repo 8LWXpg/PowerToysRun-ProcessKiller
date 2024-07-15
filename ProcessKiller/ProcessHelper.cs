@@ -22,6 +22,8 @@ internal partial class ProcessHelper
 		"services",
 		"spoolsv",
 		"explorer",
+		// Used by this Plugin
+		"wmiprvse",
 	];
 
 	private static bool IsSystemProcess(Process p) => SystemProcessList.Contains(p.ProcessName.ToLower());
@@ -29,23 +31,32 @@ internal partial class ProcessHelper
 	/// <summary>
 	/// Returns a ProcessResult for every running non-system process whose name matches the given search
 	/// </summary>
-	public static List<ProcessResult> GetMatchingProcesses(string search)
+	public static List<ProcessResult> GetMatchingProcesses(string search, bool showCommandLine)
 	{
 		var processes = Process.GetProcesses().Where(p => !IsSystemProcess(p)).ToList();
+		CommandLineQuery? commandLineQuery = null;
+		if (showCommandLine)
+		{
+			commandLineQuery = new CommandLineQuery();
+		}
 
 		if (string.IsNullOrWhiteSpace(search))
 		{
-			return processes.ConvertAll(p => new ProcessResult(p));
+			return processes.ConvertAll(p => showCommandLine ?
+				new ProcessResult(p, commandLineQuery!) :
+				new ProcessResult(p));
 		}
 
 		List<ProcessResult> results = [];
-		foreach (Process? p in processes)
+		foreach (Process p in processes)
 		{
 			MatchResult matchResult = StringMatcher.FuzzySearch(search, $"{p.ProcessName} - {p.Id}");
 			var score = matchResult.Score;
 			if (score > 0)
 			{
-				results.Add(new ProcessResult(p, score, matchResult.MatchData));
+				results.Add(showCommandLine ?
+					new ProcessResult(p, score, matchResult.MatchData, commandLineQuery!) :
+					new ProcessResult(p, score, matchResult.MatchData));
 			}
 		}
 
