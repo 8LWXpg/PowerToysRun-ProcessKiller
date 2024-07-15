@@ -59,8 +59,9 @@ internal class ProcessResult
 		Path = TryGetProcessFilename(process);
 	}
 
-	public string GetToolTipText(bool showCommandLine) {
-		string text = $"{Resources.plugin_tool_tip_main_window}: {Process.MainWindowTitle}\n{Resources.plugin_tool_tip_path}: {Process.Path}"
+	public string GetToolTipText(bool showCommandLine)
+{
+		string text = $"{Resources.plugin_tool_tip_main_window}: {Process.MainWindowTitle}\n{Resources.plugin_tool_tip_path}: {Path}"
 
 		if (showCommandLine)
 		{
