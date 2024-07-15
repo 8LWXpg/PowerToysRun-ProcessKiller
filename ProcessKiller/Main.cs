@@ -36,6 +36,7 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 			PluginOptionType= PluginAdditionalOption.AdditionalOptionType.Checkbox,
 			Key = ShowCommandLine,
 			DisplayLabel = Resources.plugin_setting_show_command_line,
+			DisplayDescription = plugin_setting_show_command_line_description,
 		}
 	];
 
@@ -67,7 +68,7 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 					TitleHighlightData = pr.MatchData,
 					Score = pr.Score,
 					ContextData = p.ProcessName,
-					ToolTipData = new ToolTipData(p.ProcessName, pr.CommandLine),
+					ToolTipData = new ToolTipData(p.ProcessName, pr.GetToolTipText(_showCommandLine)),
 					Action = c =>
 					{
 						ProcessHelper.TryKill(p);

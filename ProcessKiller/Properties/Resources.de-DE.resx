@@ -135,4 +135,19 @@
   <data name="plugin_setting_kill_all_count" xml:space="preserve">
     <value>Mindestanzahl an Treffer, damit "Alle Instanzen beenden" angezeigt wird</value>
   </data>
+  <data name="plugin_setting_show_command_line" xml:space="preserve">
+    <value>Befehlszeile des Prozesses im Tooltip anzeigen.</value>
+  </data>
+  <data name="plugin_setting_show_command_line_description" xml:space="preserve">
+    <value>Dies kann das Plugin verlangsamen.</value>
+  </data>
+  <data name="plugin_tool_tip_path" xml:space="preserve">
+    <value>Pfad</value>
+  </data>
+  <data name="plugin_tool_tip_main_window" xml:space="preserve">
+    <value>Hauptfenster</value>
+  </data>
+  <data name="plugin_tool_tip_command_line" xml:space="preserve">
+    <value>Kommandozeile</value>
+  </data>
 </root>

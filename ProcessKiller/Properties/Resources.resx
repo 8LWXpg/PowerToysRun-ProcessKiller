@@ -136,6 +136,18 @@
     <value>Minimun matches to show "Kill all instances"</value>
   </data>
   <data name="plugin_setting_show_command_line" xml:space="preserve">
-    <value>Show command line of the process, this makes the plugin slower.</value>
+    <value>Show command line of the process in the tool tip</value>
+  </data>
+  <data name="plugin_setting_show_command_line_description" xml:space="preserve">
+    <value>This may slow down the plugin.</value>
+  </data>
+  <data name="plugin_tool_tip_path" xml:space="preserve">
+    <value>Path</value>
+  </data>
+  <data name="plugin_tool_tip_main_window" xml:space="preserve">
+    <value>Main window</value>
+  </data>
+  <data name="plugin_tool_tip_command_line" xml:space="preserve">
+    <value>Command line</value>
   </data>
 </root>

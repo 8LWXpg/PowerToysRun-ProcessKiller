@@ -115,11 +115,47 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show command line of the process, this makes the plugin slower..
+        ///   Looks up a localized string similar to Show command line of the process in the tool tip.
         /// </summary>
         internal static string plugin_setting_show_command_line {
             get {
                 return ResourceManager.GetString("plugin_setting_show_command_line", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This may slow down the plugin..
+        /// </summary>
+        internal static string plugin_setting_show_command_line_description {
+            get {
+                return ResourceManager.GetString("plugin_setting_show_command_line_description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Path.
+        /// </summary>
+        internal static string plugin_tool_tip_path {
+            get {
+                return ResourceManager.GetString("plugin_tool_tip_path", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Main window.
+        /// </summary>
+        internal static string plugin_tool_tip_main_window {
+            get {
+                return ResourceManager.GetString("plugin_tool_tip_main_window", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Command line.
+        /// </summary>
+        internal static string plugin_tool_tip_command_line {
+            get {
+                return ResourceManager.GetString("plugin_tool_tip_command_line", resourceCulture);
             }
         }
     }

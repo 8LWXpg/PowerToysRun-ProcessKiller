@@ -1,3 +1,4 @@
+using Community.PowerToys.Run.Plugin.ProcessKiller.Properties;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -56,6 +57,17 @@ internal class ProcessResult
 		Process = process;
 		Score = 0;
 		Path = TryGetProcessFilename(process);
+	}
+
+	public string GetToolTipText(bool showCommandLine) {
+		string text = $"{Resources.plugin_tool_tip_main_window}: {Process.MainWindowTitle}\n{Resources.plugin_tool_tip_path}: {Process.Path}"
+
+		if (showCommandLine)
+		{
+			text = text + $"\n{Resources.plugin_tool_tip_command_line}: {CommandLine}"
+		}
+
+		return text
 	}
 
 	private static string TryGetProcessFilename(Process p)
