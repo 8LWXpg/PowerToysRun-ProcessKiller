@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Wox.Infrastructure;
+using Wox.Plugin.Common.Win32;
 using Wox.Plugin.Logger;
 
 namespace Community.PowerToys.Run.Plugin.ProcessKiller;
@@ -21,19 +22,25 @@ internal partial class ProcessHelper
 		"winlogon",
 		"services",
 		"spoolsv",
-		"explorer",
 		// Used by this Plugin
 		"wmiprvse",
 	];
 
 	private static bool IsSystemProcess(Process p) => SystemProcessList.Contains(p.ProcessName.ToLower());
 
+	private static uint GetProcessIDFromWindowHandle(IntPtr hwnd)
+	{
+		_ = NativeMethods.GetWindowThreadProcessId(hwnd, out var processId);
+		return processId;
+	}
+
 	/// <summary>
 	/// Returns a ProcessResult for every running non-system process whose name matches the given search
 	/// </summary>
 	public static List<ProcessResult> GetMatchingProcesses(string search, bool showCommandLine)
 	{
-		var processes = Process.GetProcesses().Where(p => !IsSystemProcess(p)).ToList();
+		var shellWindowId = GetProcessIDFromWindowHandle(NativeMethods.GetShellWindow());
+		var processes = Process.GetProcesses().Where(p => !IsSystemProcess(p) && p.Id != shellWindowId).ToList();
 		CommandLineQuery? commandLineQuery = null;
 		if (showCommandLine)
 		{
