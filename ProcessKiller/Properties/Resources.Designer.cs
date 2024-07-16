@@ -133,16 +133,16 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Path.
+        ///   Looks up a localized string similar to Command Line.
         /// </summary>
-        internal static string plugin_tool_tip_path {
+        internal static string plugin_tool_tip_command_line {
             get {
-                return ResourceManager.GetString("plugin_tool_tip_path", resourceCulture);
+                return ResourceManager.GetString("plugin_tool_tip_command_line", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Main window.
+        ///   Looks up a localized string similar to Main Window.
         /// </summary>
         internal static string plugin_tool_tip_main_window {
             get {
@@ -151,11 +151,11 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Command line.
+        ///   Looks up a localized string similar to Path.
         /// </summary>
-        internal static string plugin_tool_tip_command_line {
+        internal static string plugin_tool_tip_path {
             get {
-                return ResourceManager.GetString("plugin_tool_tip_command_line", resourceCulture);
+                return ResourceManager.GetString("plugin_tool_tip_path", resourceCulture);
             }
         }
     }

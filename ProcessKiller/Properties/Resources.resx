@@ -145,9 +145,9 @@
     <value>Path</value>
   </data>
   <data name="plugin_tool_tip_main_window" xml:space="preserve">
-    <value>Main window</value>
+    <value>Main Window</value>
   </data>
   <data name="plugin_tool_tip_command_line" xml:space="preserve">
-    <value>Command line</value>
+    <value>Command Line</value>
   </data>
 </root>
