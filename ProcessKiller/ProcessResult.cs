@@ -61,16 +61,18 @@ internal class ProcessResult
 
 	public string GetToolTipText(bool showCommandLine)
 	{
-		List<string> textLines = new List<string>();
+		List<string> textLines = [];
 
 		if (!string.IsNullOrWhiteSpace(Process.MainWindowTitle))
 		{
 			textLines.Add($"{Resources.plugin_tool_tip_main_window}:\n  {Process.MainWindowTitle}");
 		}
+
 		if (!string.IsNullOrWhiteSpace(Path))
 		{
 			textLines.Add($"{Resources.plugin_tool_tip_path}:\n  {Path}");
 		}
+
 		if (showCommandLine && !string.IsNullOrWhiteSpace(CommandLine))
 		{
 			textLines.Add($"{Resources.plugin_tool_tip_command_line}:\n  {CommandLine}");
