@@ -29,12 +29,12 @@ Checkout the [Template](https://github.com/8LWXpg/PowerToysRun-PluginTemplate) f
 
 ## Building
 
-1. Clone the repository and the dependencies in `/lib`.
+1. Clone the repository and the dependencies in `/lib` with `ProcessKiller/copyLib.ps1`.
 2. run `dotnet build -c Release`.
 
 ## Debugging
 
-1. Clone the repository and the dependencies in `/lib`.
+1. Clone the repository and the dependencies in `/lib` with `ProcessKiller/copyLib.ps1`.
 2. Build the project in `Debug` configuration.
 3. Make sure you have [gsudo](https://github.com/gerardog/gsudo) installed in the path.
 4. Run `debug.ps1` (change `$ptPath` if you have PowerToys installed in a different location).
