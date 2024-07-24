@@ -60,10 +60,11 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 			{
 				Process p = pr.Process;
 				var path = pr.Path;
+				var port = pr.Port;
 				return new Result()
 				{
 					IcoPath = path,
-					Title = $"{p.ProcessName} - {p.Id}",
+					Title = string.IsNullOrEmpty(port) ? $"{p.ProcessName} - {p.Id}" : $"{p.ProcessName} - {p.Id} - {port}",
 					SubTitle = path,
 					TitleHighlightData = pr.MatchData,
 					Score = pr.Score,

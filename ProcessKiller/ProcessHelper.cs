@@ -47,11 +47,13 @@ internal partial class ProcessHelper
 			commandLineQuery = new CommandLineQuery();
 		}
 
+		var portQuery = new PortQuery();
+
 		if (string.IsNullOrWhiteSpace(search))
 		{
 			return processes.ConvertAll(p => showCommandLine ?
-				new ProcessResult(p, commandLineQuery!) :
-				new ProcessResult(p));
+				new ProcessResult(p, commandLineQuery!, portQuery) :
+				new ProcessResult(p, portQuery));
 		}
 
 		List<ProcessResult> results = [];
@@ -62,8 +64,8 @@ internal partial class ProcessHelper
 			if (score > 0)
 			{
 				results.Add(showCommandLine ?
-					new ProcessResult(p, score, matchResult.MatchData, commandLineQuery!) :
-					new ProcessResult(p, score, matchResult.MatchData));
+					new ProcessResult(p, score, matchResult.MatchData, commandLineQuery!, portQuery) :
+					new ProcessResult(p, score, matchResult.MatchData, portQuery));
 			}
 		}
 
