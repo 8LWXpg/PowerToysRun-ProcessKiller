@@ -27,42 +27,36 @@ internal class ProcessResult
 
 	public string? CommandLine { get; }
 
-	public string? Port { get; }
-
-	public ProcessResult(Process process, int score, List<int> matchData, CommandLineQuery commandLineQuery, PortQuery portQuery)
+	public ProcessResult(Process process, int score, List<int> matchData, CommandLineQuery commandLineQuery)
 	{
 		Process = process;
 		Score = score;
 		MatchData = matchData;
 		Path = TryGetProcessFilename(process);
 		CommandLine = commandLineQuery.GetCommandLine(process.Id);
-		Port = portQuery.Query.GetValueOrDefault(process.Id);
 	}
 
-	public ProcessResult(Process process, int score, List<int> matchData, PortQuery portQuery)
+	public ProcessResult(Process process, int score, List<int> matchData)
 	{
 		Process = process;
 		Score = score;
 		MatchData = matchData;
 		Path = TryGetProcessFilename(process);
-		Port = portQuery.Query.GetValueOrDefault(process.Id);
 	}
 
-	public ProcessResult(Process process, CommandLineQuery commandLineQuery, PortQuery portQuery)
+	public ProcessResult(Process process, CommandLineQuery commandLineQuery)
 	{
 		Process = process;
 		Score = 0;
 		Path = TryGetProcessFilename(process);
 		CommandLine = commandLineQuery.GetCommandLine(process.Id);
-		Port = portQuery.Query.GetValueOrDefault(process.Id);
 	}
 
-	public ProcessResult(Process process, PortQuery portQuery)
+	public ProcessResult(Process process)
 	{
 		Process = process;
 		Score = 0;
 		Path = TryGetProcessFilename(process);
-		Port = portQuery.Query.GetValueOrDefault(process.Id);
 	}
 
 	public string GetToolTipText(bool showCommandLine)

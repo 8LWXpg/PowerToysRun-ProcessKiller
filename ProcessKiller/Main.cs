@@ -49,6 +49,11 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 	public List<Result> Query(Query query)
 	{
 		var search = query.Search;
+		if (search.StartsWith(':'))
+		{
+			return new PortQuery().GetMatchingResults(search[1..]);
+		}
+
 		List<ProcessResult> processes = ProcessHelper.GetMatchingProcesses(search, _showCommandLine);
 
 		if (processes.Count == 0)
@@ -60,11 +65,10 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 			{
 				Process p = pr.Process;
 				var path = pr.Path;
-				var port = pr.Port;
 				return new Result()
 				{
 					IcoPath = path,
-					Title = string.IsNullOrEmpty(port) ? $"{p.ProcessName} - {p.Id}" : $"{p.ProcessName} - {p.Id} - {port}",
+					Title = $"{p.ProcessName} - {p.Id}",
 					SubTitle = path,
 					TitleHighlightData = pr.MatchData,
 					Score = pr.Score,
