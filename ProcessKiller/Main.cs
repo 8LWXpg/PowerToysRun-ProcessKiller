@@ -89,18 +89,22 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 
 		// When there are multiple results AND all of them are instances of the same executable
 		// add a quick option to kill them all at the top of the results.
-		Result? firstResult = sortedResults.FirstOrDefault(x => !string.IsNullOrEmpty(x.SubTitle));
-		if (processes.Count > 1 && !string.IsNullOrEmpty(search) && sortedResults.Count(r => r.SubTitle == firstResult?.SubTitle) >= _killAllCount)
+		Result? topResult = sortedResults.OrderByDescending(e => e.Score).First();
+		IEnumerable<Result> killAll = sortedResults.Where(r => r.SubTitle == topResult?.SubTitle);
+		if (processes.Count > 1 && !string.IsNullOrEmpty(search) && killAll.Count() >= _killAllCount)
 		{
 			sortedResults.Insert(1, new Result()
 			{
-				IcoPath = firstResult?.IcoPath,
-				Title = string.Format(Resources.plugin_kill_all, firstResult?.ContextData),
-				SubTitle = string.Format(Resources.plugin_kill_all_count, processes.Count),
+				IcoPath = topResult?.IcoPath,
+				Title = string.Format(Resources.plugin_kill_all, topResult?.ContextData),
+				SubTitle = string.Format(Resources.plugin_kill_all_count, killAll.Count()),
 				Score = 200,
 				Action = c =>
 				{
-					processes.ForEach(p => ProcessHelper.TryKill(p.Process));
+					foreach (Result result in killAll)
+					{
+						_ = result.Action(c);
+					}
 					// Re-query to refresh process list
 					_context!.API.ChangeQuery(query.RawQuery, true);
 					return true;
