@@ -1,4 +1,5 @@
 using Community.PowerToys.Run.Plugin.ProcessKiller.Properties;
+using ManagedCommon;
 using Microsoft.PowerToys.Settings.UI.Library;
 using System.Diagnostics;
 using System.Windows.Controls;
@@ -20,6 +21,7 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 	private const string ShowCommandLine = nameof(ShowCommandLine);
 	private int? _killAllCount;
 	private bool _showCommandLine;
+	private string? _portIcon;
 
 	public IEnumerable<PluginAdditionalOption> AdditionalOptions =>
 	[
@@ -51,7 +53,7 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 		var search = query.Search;
 		if (search.StartsWith(':'))
 		{
-			return new PortQuery().GetMatchingResults(search[1..]);
+			return new PortQuery().GetMatchingResults(search[1..], _portIcon!);
 		}
 
 		List<ProcessResult> processes = ProcessHelper.GetMatchingProcesses(search, _showCommandLine);
@@ -109,7 +111,16 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 		return sortedResults;
 	}
 
-	public void Init(PluginInitContext context) => _context = context ?? throw new ArgumentNullException(nameof(context));
+	public void Init(PluginInitContext context)
+	{
+		_context = context ?? throw new ArgumentNullException(nameof(context));
+		_context.API.ThemeChanged += OnThemeChanged;
+		UpdateIconPath(_context.API.GetCurrentTheme());
+	}
+
+	private void OnThemeChanged(Theme currentTheme, Theme newTheme) => UpdateIconPath(newTheme);
+
+	private void UpdateIconPath(Theme theme) => _portIcon = theme is Theme.Light or Theme.HighContrastWhite ? "Images\\Port.light.png" : "Images\\Port.dark.png";
 
 	public string GetTranslatedPluginTitle() => Resources.plugin_name;
 

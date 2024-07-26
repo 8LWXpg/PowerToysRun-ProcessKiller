@@ -7,7 +7,7 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller;
 
 internal partial class ProcessHelper
 {
-	private static readonly HashSet<string> SystemProcessList =
+	public static readonly HashSet<string> SystemProcessList =
 	[
 		"conhost",
 		"svchost",
