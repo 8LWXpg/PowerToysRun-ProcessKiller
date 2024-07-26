@@ -89,7 +89,7 @@ internal class PortQuery
 				Score = match.Score,
 				IcoPath = iconPath,
 				QueryTextDisplay = $": {search}",
-				TitleHighlightData = match.MatchData.ConvertAll(e => e + 1),
+				TitleHighlightData = match.MatchData,
 				Action = _ =>
 				{
 					values.ForEach(e => ProcessHelper.TryKill(e));
