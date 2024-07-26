@@ -16,6 +16,12 @@ Checkout the [Template](https://github.com/8LWXpg/PowerToysRun-PluginTemplate) f
 
 ![kill all](./assets/kl_all.png)
 
+### Kill a process by Port number
+
+use `kl : <ip:port>` to search for IP and Port.
+
+![kill by port](./assets/port.png)
+
 ## Installation
 
 1. Download the latest release of the from the releases page.
