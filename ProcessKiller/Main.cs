@@ -74,12 +74,11 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 					SubTitle = path,
 					TitleHighlightData = pr.MatchData,
 					Score = pr.Score,
-					ContextData = p.ProcessName,
+					ContextData = p,
 					ToolTipData = new ToolTipData($"{p.ProcessName} - {p.Id}", pr.GetToolTipText(_showCommandLine)),
 					Action = c =>
 					{
-						ProcessHelper.TryKill(p);
-						// Re-query to refresh process list
+						_ = ProcessHelper.TryKill(p);
 						_context!.API.ChangeQuery(query.RawQuery, true);
 						return true;
 					}
@@ -90,22 +89,25 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 		// When there are multiple results AND all of them are instances of the same executable
 		// add a quick option to kill them all at the top of the results.
 		Result? topResult = sortedResults.OrderByDescending(e => e.Score).First();
-		IEnumerable<Result> killAll = sortedResults.Where(r => r.SubTitle == topResult?.SubTitle);
+		IEnumerable<Result> killAll = sortedResults.Where(r => !string.IsNullOrEmpty(r.SubTitle) && r.SubTitle == topResult?.SubTitle);
 		if (processes.Count > 1 && !string.IsNullOrEmpty(search) && killAll.Count() >= _killAllCount)
 		{
 			sortedResults.Insert(1, new Result()
 			{
 				IcoPath = topResult?.IcoPath,
-				Title = string.Format(Resources.plugin_kill_all, topResult?.ContextData),
+				Title = string.Format(Resources.plugin_kill_all, ((Process)topResult?.ContextData)?.ProcessName),
 				SubTitle = string.Format(Resources.plugin_kill_all_count, killAll.Count()),
 				Score = 200,
 				Action = c =>
 				{
-					foreach (Result result in killAll)
+					// Kill all processes asynchronously
+					IEnumerable<Task<bool>> killTasks = killAll.Select(async r =>
 					{
-						_ = result.Action(c);
-					}
-					// Re-query to refresh process list
+						var p = (Process)r.ContextData;
+						return await Task.Run(() => ProcessHelper.TryKill(p));
+					});
+					_ = Task.WhenAll(killTasks);
+
 					_context!.API.ChangeQuery(query.RawQuery, true);
 					return true;
 				}

@@ -70,19 +70,21 @@ internal partial class ProcessHelper
 		return results;
 	}
 
-	public static void TryKill(Process p)
+	public static bool TryKill(Process p)
 	{
 		try
 		{
 			if (!p.HasExited)
 			{
 				p.Kill();
-				_ = p.WaitForExit(50);
+				return p.WaitForExit(50);
 			}
 		}
 		catch (Exception e)
 		{
 			Log.Exception($"Failed to kill process {p.ProcessName}", e, typeof(ProcessHelper));
 		}
+
+		return false;
 	}
 }
