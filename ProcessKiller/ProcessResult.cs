@@ -61,24 +61,29 @@ internal class ProcessResult
 
 	public string GetToolTipText(bool showCommandLine)
 	{
-		List<string> textLines = [];
+		var textBuilder = new StringBuilder();
 
 		if (!string.IsNullOrWhiteSpace(Process.MainWindowTitle))
 		{
-			textLines.Add($"{Resources.plugin_tool_tip_main_window}:\n  {Process.MainWindowTitle}");
+			_ = textBuilder.AppendLine($"{Resources.plugin_tool_tip_main_window}:\n  {Process.MainWindowTitle}");
 		}
 
 		if (!string.IsNullOrWhiteSpace(Path))
 		{
-			textLines.Add($"{Resources.plugin_tool_tip_path}:\n  {Path}");
+			_ = textBuilder.AppendLine($"{Resources.plugin_tool_tip_path}:\n  {Path}");
 		}
 
 		if (showCommandLine && !string.IsNullOrWhiteSpace(CommandLine))
 		{
-			textLines.Add($"{Resources.plugin_tool_tip_command_line}:\n  {CommandLine}");
+			_ = textBuilder.AppendLine($"{Resources.plugin_tool_tip_command_line}:\n  {CommandLine}");
 		}
 
-		return string.Join("\n", textLines);
+		if (textBuilder.Length > 0)
+		{
+			textBuilder.Length -= 2; // Length of "\r\n"
+		}
+
+		return textBuilder.ToString();
 	}
 
 	private static string TryGetProcessFilename(Process p)
