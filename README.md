@@ -24,9 +24,17 @@ use `kl : <ip:port>` to search for IP and Port.
 
 ## Installation
 
+### Manual
+
 1. Download the latest release of the from the releases page.
 2. Extract the zip file's contents to `%LocalAppData%\Microsoft\PowerToys\PowerToys Run\Plugins`
 3. Restart PowerToys.
+
+### Via [ptr](https://github.com/8LWXpg/ptr)
+
+```shell
+ptr add ProcessKiller 8LWXpg/PowerToysRun-ProcessKiller
+```
 
 ## Usage
 
