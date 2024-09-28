@@ -44,8 +44,8 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 
 	public void UpdateSettings(PowerLauncherPluginSettings settings)
 	{
-		_killAllCount = (int?)(settings?.AdditionalOptions?.FirstOrDefault(x => x.Key == KillAllCount)?.NumberValue) ?? 5;
-		_showCommandLine = settings?.AdditionalOptions?.FirstOrDefault(x => x.Key == ShowCommandLine)?.Value ?? false;
+		_killAllCount = (int?)(settings?.AdditionalOptions?.FirstOrDefault(static x => x.Key == KillAllCount)?.NumberValue) ?? 5;
+		_showCommandLine = settings?.AdditionalOptions?.FirstOrDefault(static x => x.Key == ShowCommandLine)?.Value ?? false;
 	}
 
 	public List<Result> Query(Query query)
