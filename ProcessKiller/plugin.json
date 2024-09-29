@@ -1,14 +1,14 @@
 {
-  "ID": "78844AE082E24C0C8AC9DB222FF67317",
-  "ActionKeyword": "kl",
-  "Disabled": false,
-  "IsGlobal": false,
-  "Name": "Process Killer",
-  "Author": "8LWXpg",
-  "Version": "1.4.2",
-  "Language": "csharp",
-  "Website": "https://github.com/8LWXpg/PowerToysRun-ProcessKiller",
-  "ExecuteFileName": "Community.PowerToys.Run.Plugin.ProcessKiller.dll",
-  "IcoPathDark": "Images\\ProcessKiller.dark.png",
-  "IcoPathLight": "Images\\ProcessKiller.light.png"
+	"ID": "78844AE082E24C0C8AC9DB222FF67317",
+	"ActionKeyword": "kl",
+	"Disabled": false,
+	"IsGlobal": false,
+	"Name": "Process Killer",
+	"Author": "8LWXpg",
+	"Version": "1.5.0",
+	"Language": "csharp",
+	"Website": "https://github.com/8LWXpg/PowerToysRun-ProcessKiller",
+	"ExecuteFileName": "Community.PowerToys.Run.Plugin.ProcessKiller.dll",
+	"IcoPathDark": "Images\\ProcessKiller.dark.png",
+	"IcoPathLight": "Images\\ProcessKiller.light.png"
 }
