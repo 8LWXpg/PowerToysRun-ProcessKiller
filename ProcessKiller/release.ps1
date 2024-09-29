@@ -22,6 +22,7 @@ foreach ($arch in $archs) {
 		"$releasePath/plugin.json",
 		"$releasePath/Images",
 		"$releasePath/pl-PL",
+		"$releasePath/zh-TW",
 		"$releasePath/de-DE"
 	)
 	Copy-Item $items "./out/$name" -Recurse -Force
