@@ -118,22 +118,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="plugin_description" xml:space="preserve">
-    <value>刪除處理程序</value>
+    <value>終止處理程序</value>
   </data>
   <data name="plugin_kill_all" xml:space="preserve">
-    <value>刪除所有 "{0}" 程序</value>
+    <value>終止所有 "{0}" 程序</value>
   </data>
   <data name="plugin_kill_all_count" xml:space="preserve">
-    <value>刪除 {0} 個程序</value>
+    <value>終止 {0} 個程序</value>
   </data>
   <data name="plugin_kill_instances" xml:space="preserve">
-    <value>刪除所有程序</value>
+    <value>終止所有程序</value>
   </data>
   <data name="plugin_name" xml:space="preserve">
     <value>Process Killer</value>
   </data>
   <data name="plugin_setting_kill_all_count" xml:space="preserve">
-    <value>顯示 "刪除所有程序" 的最少數量</value>
+    <value>顯示 "終止所有程序" 的最少數量</value>
   </data>
   <data name="plugin_setting_show_command_line" xml:space="preserve">
     <value>在工具提示顯示程序的命令行</value>
@@ -145,8 +145,7 @@
     <value>檔案路徑</value>
   </data>
   <data name="plugin_tool_tip_main_window" xml:space="preserve">
-    <value>Main Window</value>
-    <comment>Cannot find where it shows</comment>
+    <value>主視窗標題</value>
   </data>
   <data name="plugin_tool_tip_command_line" xml:space="preserve">
     <value>命令行</value>
