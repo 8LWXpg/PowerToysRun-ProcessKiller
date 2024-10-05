@@ -1,6 +1,6 @@
 # ProcessKiller Plugin for PowerToys Run
 
-A [PowerToys Run](https://aka.ms/PowerToysOverview_PowerToysRun) plugin to kill processes.
+A [PowerToys Run](https://aka.ms/PowerToysOverview_PowerToysRun) plugin for killing processes.
 
 Derived from FlowLauncher Plugin [ProcessKiller](https://github.com/Flow-Launcher/Flow.Launcher/tree/dev/Plugins/Flow.Launcher.Plugin.ProcessKiller).
 
