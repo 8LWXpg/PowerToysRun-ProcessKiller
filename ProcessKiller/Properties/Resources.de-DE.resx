@@ -126,6 +126,9 @@
   <data name="plugin_kill_all_count" xml:space="preserve">
     <value>{0} Prozesse beenden</value>
   </data>
+  <data name="plugin_kill_all_count_memory" xml:space="preserve">
+    <value>{0} Prozesse beenden (Gesamtspeicher: {1})</value>
+  </data>
   <data name="plugin_kill_instances" xml:space="preserve">
     <value>Alle Instanzen beenden</value>
   </data>
@@ -149,5 +152,8 @@
   </data>
   <data name="plugin_tool_tip_command_line" xml:space="preserve">
     <value>Befehlszeile</value>
+  </data>
+  <data name="plugin_tool_tip_memory" xml:space="preserve">
+    <value>Speichernutzung</value>
   </data>
 </root>

@@ -121,7 +121,7 @@
     <value>Kill a process.</value>
   </data>
   <data name="plugin_kill_all" xml:space="preserve">
-    <value>Kill all instances of "{0}"</value>
+    <value>Kill all instances of "{0}" ({1})</value>
   </data>
   <data name="plugin_kill_all_count" xml:space="preserve">
     <value>Kill {0} processes</value>
@@ -150,4 +150,8 @@
   <data name="plugin_tool_tip_command_line" xml:space="preserve">
     <value>Command Line</value>
   </data>
+  <data name="plugin_tool_tip_memory" xml:space="preserve">
+    <value>Memory Usage</value>
+  </data>
+
 </root>
