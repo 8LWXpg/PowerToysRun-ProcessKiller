@@ -126,6 +126,9 @@
   <data name="plugin_kill_all_count" xml:space="preserve">
     <value>Zabij {0} procesów</value>
   </data>
+  <data name="plugin_kill_all_count_memory" xml:space="preserve">
+    <value>Zabij {0} procesów (Całkowita pamięć: {1})</value>
+  </data>
   <data name="plugin_kill_instances" xml:space="preserve">
     <value>Zabij wszystkie instancje</value>
   </data>
@@ -134,5 +137,8 @@
   </data>
   <data name="plugin_setting_kill_all_count" xml:space="preserve">
     <value>Minimalna liczba dopasowań, aby pokazać opcję "Zabij wszystkie instancje"</value>
+  </data>
+  <data name="plugin_tool_tip_memory" xml:space="preserve">
+    <value>Użycie pamięci</value>
   </data>
 </root>

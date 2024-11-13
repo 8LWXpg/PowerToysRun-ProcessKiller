@@ -126,6 +126,9 @@
   <data name="plugin_kill_all_count" xml:space="preserve">
     <value>終止 {0} 個程序</value>
   </data>
+  <data name="plugin_kill_all_count_memory" xml:space="preserve">
+    <value>終止 {0} 個程序 (總記憶體: {1})</value>
+  </data>
   <data name="plugin_kill_instances" xml:space="preserve">
     <value>終止所有程序</value>
   </data>
@@ -149,5 +152,8 @@
   </data>
   <data name="plugin_tool_tip_command_line" xml:space="preserve">
     <value>命令行</value>
+  </data>
+  <data name="plugin_tool_tip_memory" xml:space="preserve">
+    <value>記憶體使用量</value>
   </data>
 </root>

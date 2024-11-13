@@ -70,7 +70,7 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 				return new Result()
 				{
 					IcoPath = path,
-					Title = $"{p.ProcessName} - {p.Id}",
+					Title = $"{p.ProcessName} - {p.Id} ({FormatMemorySize(pr.MemoryUsage)})",
 					SubTitle = path,
 					TitleHighlightData = pr.MatchData,
 					Score = pr.Score,
@@ -92,10 +92,11 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 		IEnumerable<Result> killAll = sortedResults.Where(r => !string.IsNullOrEmpty(r.SubTitle) && r.SubTitle == topResult?.SubTitle);
 		if (processes.Count > 1 && !string.IsNullOrEmpty(search) && killAll.Count() >= _killAllCount)
 		{
+			var totalMemory = killAll.Sum(r => ((Process)r.ContextData).WorkingSet64);
 			sortedResults.Insert(1, new Result()
 			{
 				IcoPath = topResult?.IcoPath,
-				Title = string.Format(Resources.plugin_kill_all, ((Process)topResult?.ContextData)?.ProcessName),
+				Title = string.Format(Resources.plugin_kill_all, ((Process)topResult?.ContextData)?.ProcessName, FormatMemorySize(totalMemory)),
 				SubTitle = string.Format(Resources.plugin_kill_all_count, killAll.Count()),
 				Score = 200,
 				Action = c =>
@@ -115,6 +116,19 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 		}
 
 		return sortedResults;
+	}
+
+	private static string FormatMemorySize(long bytes)
+	{
+		string[] sizes = { "B", "KB", "MB", "GB" };
+		int order = 0;
+		double mem = bytes;
+		while (mem >= 1024 && order < sizes.Length - 1)
+		{
+			order++;
+			mem /= 1024;
+		}
+		return $"{mem:0.##} {sizes[order]}";
 	}
 
 	public void Init(PluginInitContext context)
