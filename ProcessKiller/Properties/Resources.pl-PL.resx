@@ -121,13 +121,10 @@
     <value>Zabija procesy.</value>
   </data>
   <data name="plugin_kill_all" xml:space="preserve">
-    <value>Zabij wszystkie instancje "{0}"</value>
+    <value>Zabij wszystkie instancje "{0}" ({1})</value>
   </data>
   <data name="plugin_kill_all_count" xml:space="preserve">
     <value>Zabij {0} procesów</value>
-  </data>
-  <data name="plugin_kill_all_count_memory" xml:space="preserve">
-    <value>Zabij {0} procesów (Całkowita pamięć: {1})</value>
   </data>
   <data name="plugin_kill_instances" xml:space="preserve">
     <value>Zabij wszystkie instancje</value>

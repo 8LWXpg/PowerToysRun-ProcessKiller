@@ -121,13 +121,10 @@
     <value>終止處理程序</value>
   </data>
   <data name="plugin_kill_all" xml:space="preserve">
-    <value>終止所有 "{0}" 程序</value>
+    <value>終止所有 "{0}" 程序 ({1})</value>
   </data>
   <data name="plugin_kill_all_count" xml:space="preserve">
     <value>終止 {0} 個程序</value>
-  </data>
-  <data name="plugin_kill_all_count_memory" xml:space="preserve">
-    <value>終止 {0} 個程序 (總記憶體: {1})</value>
   </data>
   <data name="plugin_kill_instances" xml:space="preserve">
     <value>終止所有程序</value>
