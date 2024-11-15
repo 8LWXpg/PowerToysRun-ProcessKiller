@@ -2,14 +2,20 @@ name: 🐞 Bug report
 description: Report a bug in the application
 
 labels:
-  - bug
+    - bug
 
 body:
-  - type: textarea
-    id: description
-    attributes:
-      label: Description
-      description: Please provide a clear and concise description of the bug you are experiencing.
-    validations:
-      required: true
-
+    - type: textarea
+      id: description
+      attributes:
+          label: Description
+          description: Please provide a clear and concise description of the bug you are experiencing.
+      validations:
+          required: true
+    - type: textarea
+      id: reproduction
+      attributes:
+          label: Steps to reproduce
+          description: Provide a clear and concise description of the steps to reproduce the bug.
+      validations:
+          required: true
