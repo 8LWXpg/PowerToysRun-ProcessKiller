@@ -150,4 +150,7 @@
   <data name="plugin_tool_tip_command_line" xml:space="preserve">
     <value>Befehlszeile</value>
   </data>
+  <data name="plugin_tool_tip_memory" xml:space="preserve">
+    <value>Speichernutzung</value>
+  </data>
 </root>

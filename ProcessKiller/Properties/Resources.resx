@@ -150,4 +150,8 @@
   <data name="plugin_tool_tip_command_line" xml:space="preserve">
     <value>Command Line</value>
   </data>
+  <data name="plugin_tool_tip_memory" xml:space="preserve">
+    <value>Memory Usage</value>
+  </data>
+
 </root>
