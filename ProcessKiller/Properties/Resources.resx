@@ -121,7 +121,7 @@
     <value>Kill a process.</value>
   </data>
   <data name="plugin_kill_all" xml:space="preserve">
-    <value>Kill all instances of "{0}" ({1})</value>
+    <value>Kill all instances of "{0}"</value>
   </data>
   <data name="plugin_kill_all_count" xml:space="preserve">
     <value>Kill {0} processes</value>

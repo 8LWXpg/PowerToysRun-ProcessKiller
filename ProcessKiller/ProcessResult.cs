@@ -77,7 +77,7 @@ internal class ProcessResult
 			_ = textBuilder.AppendLine($"{Resources.plugin_tool_tip_main_window}:\n  {Process.MainWindowTitle}");
 		}
 
-		_ = textBuilder.AppendLine($"{Resources.plugin_tool_tip_memory}:\n  {FormatMemorySize(MemoryUsage)}");
+		_ = textBuilder.AppendLine($"{Resources.plugin_tool_tip_memory}: {FormatMemorySize(MemoryUsage)}");
 
 		if (!string.IsNullOrWhiteSpace(Path))
 		{

@@ -121,7 +121,7 @@
     <value>Einen Prozess beenden.</value>
   </data>
   <data name="plugin_kill_all" xml:space="preserve">
-    <value>Alle Instanzen von "{0}" beenden ({1})</value>
+    <value>Alle Instanzen von "{0}" beenden</value>
   </data>
   <data name="plugin_kill_all_count" xml:space="preserve">
     <value>{0} Prozesse beenden</value>
