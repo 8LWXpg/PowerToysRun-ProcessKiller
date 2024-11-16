@@ -77,7 +77,7 @@ internal class ProcessResult
 			_ = textBuilder.AppendLine($"{Resources.plugin_tool_tip_main_window}:\n  {Process.MainWindowTitle}");
 		}
 
-		_ = textBuilder.AppendLine($"{Resources.plugin_tool_tip_memory}: {FormatMemorySize(MemoryUsage)}");
+		_ = textBuilder.AppendLine($"{Resources.plugin_tool_tip_memory}:\n  {FormatMemorySize()}");
 
 		if (!string.IsNullOrWhiteSpace(Path))
 		{
@@ -119,16 +119,14 @@ internal class ProcessResult
 		[Out] StringBuilder lpExeName,
 		ref int lpdwSize);
 
-	private static string FormatMemorySize(long bytes)
+	private const double KB = 1024;
+	private const double MB = KB * 1024;
+	private const double GB = MB * 1024;
+	private string FormatMemorySize() => (double)MemoryUsage switch
 	{
-		string[] sizes = { "B", "KB", "MB", "GB" };
-		int order = 0;
-		double mem = bytes;
-		while (mem >= 1024 && order < sizes.Length - 1)
-		{
-			order++;
-			mem /= 1024;
-		}
-		return $"{mem:0.##} {sizes[order]}";
-	}
+		< KB => $"{MemoryUsage:0.##} B",
+		< MB => $"{MemoryUsage / KB:0.##} KB",
+		< GB => $"{MemoryUsage / MB:0.##} MB",
+		_ => $"{MemoryUsage / GB:0.##} GB"
+	};
 }

@@ -141,17 +141,16 @@
   <data name="plugin_setting_show_command_line_description" xml:space="preserve">
     <value>This may slow down the plugin.</value>
   </data>
-  <data name="plugin_tool_tip_path" xml:space="preserve">
-    <value>Path</value>
+  <data name="plugin_tool_tip_command_line" xml:space="preserve">
+    <value>Command Line</value>
   </data>
   <data name="plugin_tool_tip_main_window" xml:space="preserve">
     <value>Main Window</value>
   </data>
-  <data name="plugin_tool_tip_command_line" xml:space="preserve">
-    <value>Command Line</value>
-  </data>
   <data name="plugin_tool_tip_memory" xml:space="preserve">
     <value>Memory Usage</value>
   </data>
-
+  <data name="plugin_tool_tip_path" xml:space="preserve">
+    <value>Path</value>
+  </data>
 </root>
