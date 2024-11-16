@@ -13,7 +13,7 @@ sudo {
 		'Wox.Infrastructure.dll',
 		'Wox.Plugin.dll'
 	) | ForEach-Object {
-		New-Item ./Lib/$_ -ItemType SymbolicLink -Value "$ptPath\$_"
+		New-Item ./Lib/$_ -ItemType SymbolicLink -Value "$ptPath\$_" -Force
 	}
 }
 

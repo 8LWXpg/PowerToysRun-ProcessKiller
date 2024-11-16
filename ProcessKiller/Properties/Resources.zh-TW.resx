@@ -141,13 +141,16 @@
   <data name="plugin_setting_show_command_line_description" xml:space="preserve">
     <value>這可能會影響插件的效能</value>
   </data>
-  <data name="plugin_tool_tip_path" xml:space="preserve">
-    <value>檔案路徑</value>
+  <data name="plugin_tool_tip_command_line" xml:space="preserve">
+    <value>命令行</value>
   </data>
   <data name="plugin_tool_tip_main_window" xml:space="preserve">
     <value>主視窗標題</value>
   </data>
-  <data name="plugin_tool_tip_command_line" xml:space="preserve">
-    <value>命令行</value>
+  <data name="plugin_tool_tip_memory" xml:space="preserve">
+    <value>記憶體使用量</value>
+  </data>
+  <data name="plugin_tool_tip_path" xml:space="preserve">
+    <value>檔案路徑</value>
   </data>
 </root>

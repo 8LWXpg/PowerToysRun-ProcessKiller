@@ -151,6 +151,15 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Memory Usage.
+        /// </summary>
+        internal static string plugin_tool_tip_memory {
+            get {
+                return ResourceManager.GetString("plugin_tool_tip_memory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Path.
         /// </summary>
         internal static string plugin_tool_tip_path {

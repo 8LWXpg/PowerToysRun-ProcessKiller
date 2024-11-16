@@ -141,13 +141,16 @@
   <data name="plugin_setting_show_command_line_description" xml:space="preserve">
     <value>Dies kann das Plugin verlangsamen.</value>
   </data>
-  <data name="plugin_tool_tip_path" xml:space="preserve">
-    <value>Pfad</value>
+  <data name="plugin_tool_tip_command_line" xml:space="preserve">
+    <value>Befehlszeile</value>
   </data>
   <data name="plugin_tool_tip_main_window" xml:space="preserve">
     <value>Hauptfenster</value>
   </data>
-  <data name="plugin_tool_tip_command_line" xml:space="preserve">
-    <value>Befehlszeile</value>
+  <data name="plugin_tool_tip_memory" xml:space="preserve">
+    <value>Speichernutzung</value>
+  </data>
+  <data name="plugin_tool_tip_path" xml:space="preserve">
+    <value>Pfad</value>
   </data>
 </root>

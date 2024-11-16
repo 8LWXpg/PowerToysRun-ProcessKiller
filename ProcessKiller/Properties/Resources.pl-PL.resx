@@ -135,4 +135,7 @@
   <data name="plugin_setting_kill_all_count" xml:space="preserve">
     <value>Minimalna liczba dopasowań, aby pokazać opcję "Zabij wszystkie instancje"</value>
   </data>
+  <data name="plugin_tool_tip_memory" xml:space="preserve">
+    <value>Użycie pamięci</value>
+  </data>
 </root>

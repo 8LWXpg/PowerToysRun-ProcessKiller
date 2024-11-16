@@ -25,6 +25,11 @@ internal class ProcessResult
 	/// </summary>
 	public string Path { get; }
 
+	/// <summary>
+	/// Memory usage of the process
+	/// </summary>
+	public long MemoryUsage { get; }
+
 	public string? CommandLine { get; }
 
 	public ProcessResult(Process process, int score, List<int> matchData, CommandLineQuery commandLineQuery)
@@ -34,6 +39,7 @@ internal class ProcessResult
 		MatchData = matchData;
 		Path = TryGetProcessFilename(process);
 		CommandLine = commandLineQuery.GetCommandLine(process.Id);
+		MemoryUsage = process.WorkingSet64;
 	}
 
 	public ProcessResult(Process process, int score, List<int> matchData)
@@ -42,6 +48,7 @@ internal class ProcessResult
 		Score = score;
 		MatchData = matchData;
 		Path = TryGetProcessFilename(process);
+		MemoryUsage = process.WorkingSet64;
 	}
 
 	public ProcessResult(Process process, CommandLineQuery commandLineQuery)
@@ -50,6 +57,7 @@ internal class ProcessResult
 		Score = 0;
 		Path = TryGetProcessFilename(process);
 		CommandLine = commandLineQuery.GetCommandLine(process.Id);
+		MemoryUsage = process.WorkingSet64;
 	}
 
 	public ProcessResult(Process process)
@@ -57,6 +65,7 @@ internal class ProcessResult
 		Process = process;
 		Score = 0;
 		Path = TryGetProcessFilename(process);
+		MemoryUsage = process.WorkingSet64;
 	}
 
 	public string GetToolTipText(bool showCommandLine)
@@ -67,6 +76,8 @@ internal class ProcessResult
 		{
 			_ = textBuilder.AppendLine($"{Resources.plugin_tool_tip_main_window}:\n  {Process.MainWindowTitle}");
 		}
+
+		_ = textBuilder.AppendLine($"{Resources.plugin_tool_tip_memory}:\n  {FormatMemorySize()}");
 
 		if (!string.IsNullOrWhiteSpace(Path))
 		{
@@ -107,4 +118,15 @@ internal class ProcessResult
 		[In] int dwFlags,
 		[Out] StringBuilder lpExeName,
 		ref int lpdwSize);
+
+	private const double KB = 1024;
+	private const double MB = KB * 1024;
+	private const double GB = MB * 1024;
+	private string FormatMemorySize() => (double)MemoryUsage switch
+	{
+		< KB => $"{MemoryUsage:0.##} B",
+		< MB => $"{MemoryUsage / KB:0.##} KB",
+		< GB => $"{MemoryUsage / MB:0.##} MB",
+		_ => $"{MemoryUsage / GB:0.##} GB"
+	};
 }
