@@ -77,7 +77,7 @@ internal class ProcessResult
 			_ = textBuilder.AppendLine($"{Resources.plugin_tool_tip_main_window}:\n  {Process.MainWindowTitle}");
 		}
 
-		_ = textBuilder.AppendLine($"{Resources.plugin_tool_tip_memory}:\n  {FormatMemorySize()}");
+		_ = textBuilder.AppendLine($"{Resources.plugin_tool_tip_memory}:\n  {FormatMemorySize(MemoryUsage)}");
 
 		if (!string.IsNullOrWhiteSpace(Path))
 		{
@@ -122,11 +122,11 @@ internal class ProcessResult
 	private const double KB = 1024;
 	private const double MB = KB * 1024;
 	private const double GB = MB * 1024;
-	private string FormatMemorySize() => (double)MemoryUsage switch
+	public static string FormatMemorySize(long mem) => (double)mem switch
 	{
-		< KB => $"{MemoryUsage:0.##} B",
-		< MB => $"{MemoryUsage / KB:0.##} KB",
-		< GB => $"{MemoryUsage / MB:0.##} MB",
-		_ => $"{MemoryUsage / GB:0.##} GB"
+		< KB => $"{mem:0.##} B",
+		< MB => $"{mem / KB:0.##} KB",
+		< GB => $"{mem / MB:0.##} MB",
+		_ => $"{mem / GB:0.##} GB"
 	};
 }

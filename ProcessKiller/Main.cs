@@ -92,12 +92,14 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 		IEnumerable<Result> killAll = sortedResults.Where(r => !string.IsNullOrEmpty(r.SubTitle) && r.SubTitle == topResult?.SubTitle);
 		if (processes.Count > 1 && !string.IsNullOrEmpty(search) && killAll.Count() >= _killAllCount)
 		{
+			var name = ((Process)topResult?.ContextData!)?.ProcessName;
 			var totalMemory = killAll.Sum(r => ((Process)r.ContextData).WorkingSet64);
 			sortedResults.Insert(1, new Result()
 			{
 				IcoPath = topResult?.IcoPath,
-				Title = string.Format(Resources.plugin_kill_all, ((Process)topResult?.ContextData)?.ProcessName),
+				Title = string.Format(Resources.plugin_kill_all, name),
 				SubTitle = string.Format(Resources.plugin_kill_all_count, killAll.Count()),
+				ToolTipData = new ToolTipData(name, $"{Resources.plugin_tool_tip_memory}:\n  {ProcessResult.FormatMemorySize(totalMemory)}"),
 				Score = 200,
 				Action = c =>
 				{
@@ -117,7 +119,7 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 
 		return sortedResults;
 	}
-	
+
 	public void Init(PluginInitContext context)
 	{
 		_context = context ?? throw new ArgumentNullException(nameof(context));
