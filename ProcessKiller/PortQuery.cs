@@ -48,54 +48,32 @@ internal class PortQuery
 		}
 	}
 
-	public List<Result> GetMatchingResults(string search, string iconPath)
+	public List<Result> GetMatchingResults(string search, string rawQuery, string iconPath, PluginInitContext context)
 	{
-		if (string.IsNullOrWhiteSpace(search))
+		var results = Query.ToList().ConvertAll(e =>
 		{
-			return Query.ToList().ConvertAll(e =>
+			MatchResult match = StringMatcher.FuzzySearch(search, e.Key);
+			var values = e.Value.ToList();
+			return new Result
 			{
-				var values = e.Value.ToList();
-				var result = new Result
-				{
-					Title = $"{e.Key}",
-					SubTitle = $"{string.Join(", ", values.ConvertAll(e => e.ProcessName))}",
-					Score = 0,
-					IcoPath = iconPath,
-					QueryTextDisplay = ":",
-					Action = _ =>
-					{
-						values.ForEach(e => ProcessHelper.TryKill(e));
-						return true;
-					}
-				};
-				return result;
-			});
-		}
-
-		List<Result> results = [];
-		foreach ((var localAddress, HashSet<Process>? pr) in Query)
-		{
-			MatchResult match = StringMatcher.FuzzySearch(search, localAddress);
-			if (match.Score <= 0)
-			{
-				continue;
-			}
-
-			var values = pr.ToList();
-			results.Add(new Result
-			{
-				Title = $"{localAddress}",
+				Title = $"{e.Key}",
 				SubTitle = $"{string.Join(", ", values.ConvertAll(e => e.ProcessName))}",
 				Score = match.Score,
 				IcoPath = iconPath,
-				QueryTextDisplay = $": {search}",
+				QueryTextDisplay = $":{search}",
 				TitleHighlightData = match.MatchData,
 				Action = _ =>
 				{
 					values.ForEach(e => ProcessHelper.TryKill(e));
+					context.API.ChangeQuery(rawQuery, true);
 					return true;
 				}
-			});
+			};
+		});
+
+		if (!string.IsNullOrWhiteSpace(search))
+		{
+			results.RemoveAll(r => r.Score <= 0);
 		}
 
 		return results;

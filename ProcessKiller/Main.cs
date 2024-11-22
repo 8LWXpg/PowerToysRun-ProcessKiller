@@ -53,16 +53,10 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 		var search = query.Search;
 		if (search.StartsWith(':'))
 		{
-			return new PortQuery().GetMatchingResults(search[1..], _portIcon!);
+			return new PortQuery().GetMatchingResults(search[1..], query.RawQuery, _portIcon!, _context!);
 		}
 
 		List<ProcessResult> processes = ProcessHelper.GetMatchingProcesses(search, _showCommandLine);
-
-		if (processes.Count == 0)
-		{
-			return [];
-		}
-
 		List<Result> sortedResults = processes.ConvertAll(pr =>
 			{
 				Process p = pr.Process;
