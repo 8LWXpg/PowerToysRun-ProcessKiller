@@ -29,7 +29,7 @@ internal class PortQuery
 		foreach (var row in process.StandardOutput.ReadToEnd().Split("\r\n", StringSplitOptions.RemoveEmptyEntries).Skip(2))
 		{
 			var elements = row.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-			var localAdderss = elements[1];
+			var localAddress = elements[1];
 			var pid = int.Parse(elements.Length > 4 ? elements[4] : elements[3]);
 			Process? pr = processes.FirstOrDefault(e => e.Id == pid);
 			if (pr == null)
@@ -37,20 +37,20 @@ internal class PortQuery
 				continue;
 			}
 
-			if (Query.TryGetValue(localAdderss, out HashSet<Process>? value))
+			if (Query.TryGetValue(localAddress, out HashSet<Process>? value))
 			{
 				_ = value.Add(pr);
 			}
 			else
 			{
-				Query[localAdderss] = [pr];
+				Query[localAddress] = [pr];
 			}
 		}
 	}
 
 	public List<Result> GetMatchingResults(string search, string rawQuery, string iconPath, PluginInitContext context)
 	{
-		var results = Query.ToList().ConvertAll(e =>
+		List<Result> results = Query.ToList().ConvertAll(e =>
 		{
 			MatchResult match = StringMatcher.FuzzySearch(search, e.Key);
 			var values = e.Value.ToList();
@@ -73,7 +73,7 @@ internal class PortQuery
 
 		if (!string.IsNullOrWhiteSpace(search))
 		{
-			results.RemoveAll(r => r.Score <= 0);
+			_ = results.RemoveAll(r => r.Score <= 0);
 		}
 
 		return results;
