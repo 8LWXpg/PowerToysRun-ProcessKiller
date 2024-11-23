@@ -37,10 +37,10 @@ internal partial class ProcessHelper
 	/// <summary>
 	/// Returns a ProcessResult for every running non-system process whose name matches the given search
 	/// </summary>
-	public static List<ProcessResult> GetMatchingProcesses(string search, bool showCommandLine)
+	public static List<ProcessResult> GetMatchingProcesses(string search, bool showCommandLine, bool showShellExplorer)
 	{
 		var shellWindowId = GetProcessIDFromWindowHandle(NativeMethods.GetShellWindow());
-		var processes = Process.GetProcesses().Where(p => !IsSystemProcess(p) && p.Id != shellWindowId).ToList();
+		var processes = Process.GetProcesses().Where(p => !IsSystemProcess(p) && (p.Id != shellWindowId || showShellExplorer)).ToList();
 		CommandLineQuery? commandLineQuery = null;
 		if (showCommandLine)
 		{

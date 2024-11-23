@@ -10,17 +10,16 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller;
 public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDisposable
 {
 	private PluginInitContext? _context;
-
 	private bool _disposed;
-
 	public string Name => Resources.plugin_name;
 	public string Description => Resources.plugin_description;
 	public static string PluginID => "78844AE082E24C0C8AC9DB222FF67317";
-
 	private const string KillAllCount = nameof(KillAllCount);
 	private const string ShowCommandLine = nameof(ShowCommandLine);
+	private const string ShowShellExplorer = nameof(ShowShellExplorer);
 	private int? _killAllCount;
 	private bool _showCommandLine;
+	private bool _showShellExplorer;
 	private string? _portIcon;
 
 	public IEnumerable<PluginAdditionalOption> AdditionalOptions =>
@@ -35,10 +34,16 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 		},
 		new()
 		{
-			PluginOptionType= PluginAdditionalOption.AdditionalOptionType.Checkbox,
+			PluginOptionType = PluginAdditionalOption.AdditionalOptionType.Checkbox,
 			Key = ShowCommandLine,
 			DisplayLabel = Resources.plugin_setting_show_command_line,
 			DisplayDescription = Resources.plugin_setting_show_command_line_description,
+		},
+		new ()
+		{
+			PluginOptionType = PluginAdditionalOption.AdditionalOptionType.Checkbox,
+			Key = ShowShellExplorer,
+			DisplayLabel = Resources.plugin_setting_show_shell_explorer,
 		}
 	];
 
@@ -46,6 +51,7 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 	{
 		_killAllCount = (int?)(settings?.AdditionalOptions?.FirstOrDefault(static x => x.Key == KillAllCount)?.NumberValue) ?? 5;
 		_showCommandLine = settings?.AdditionalOptions?.FirstOrDefault(static x => x.Key == ShowCommandLine)?.Value ?? false;
+		_showShellExplorer = settings?.AdditionalOptions?.FirstOrDefault(static x => x.Key == ShowShellExplorer)?.Value ?? false;
 	}
 
 	public List<Result> Query(Query query)
@@ -56,7 +62,7 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 			return new PortQuery().GetMatchingResults(search[1..], query.RawQuery, _portIcon!, _context!);
 		}
 
-		List<ProcessResult> processes = ProcessHelper.GetMatchingProcesses(search, _showCommandLine);
+		List<ProcessResult> processes = ProcessHelper.GetMatchingProcesses(search, _showCommandLine, _showShellExplorer);
 		List<Result> sortedResults = processes.ConvertAll(pr =>
 			{
 				Process p = pr.Process;

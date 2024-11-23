@@ -141,6 +141,9 @@
   <data name="plugin_setting_show_command_line_description" xml:space="preserve">
     <value>This may slow down the plugin.</value>
   </data>
+  <data name="plugin_setting_show_shell_explorer" xml:space="preserve">
+    <value>Showing explorer.exe that hosts Windows Shell</value>
+  </data>
   <data name="plugin_tool_tip_command_line" xml:space="preserve">
     <value>Command Line</value>
   </data>

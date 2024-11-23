@@ -133,6 +133,15 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Showing explorer.exe that hosts Windows Shell.
+        /// </summary>
+        internal static string plugin_setting_show_shell_explorer {
+            get {
+                return ResourceManager.GetString("plugin_setting_show_shell_explorer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Command Line.
         /// </summary>
         internal static string plugin_tool_tip_command_line {
