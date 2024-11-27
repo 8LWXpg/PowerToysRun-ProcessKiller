@@ -23,7 +23,8 @@ foreach ($arch in $archs) {
 		"$releasePath/Images",
 		"$releasePath/pl-PL",
 		"$releasePath/zh-TW",
-		"$releasePath/de-DE"
+		"$releasePath/de-DE",
+		"$releasePath/zh-CN"
 	)
 	Copy-Item $items "./out/$name" -Recurse -Force
 	Compress-Archive "./out/$name" "./out/$name-$version-$arch.zip" -Force
