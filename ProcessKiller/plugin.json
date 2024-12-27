@@ -5,7 +5,7 @@
 	"IsGlobal": false,
 	"Name": "Process Killer",
 	"Author": "8LWXpg",
-	"Version": "1.8.1",
+	"Version": "1.9.0",
 	"Language": "csharp",
 	"Website": "https://github.com/8LWXpg/PowerToysRun-ProcessKiller",
 	"ExecuteFileName": "Community.PowerToys.Run.Plugin.ProcessKiller.dll",

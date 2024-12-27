@@ -1,13 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net8.0-windows</TargetFramework>
+        <TargetFramework>net9.0-windows</TargetFramework>
         <useWPF>true</useWPF>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <AssemblyName>Community.PowerToys.Run.Plugin.ProcessKiller</AssemblyName>
         <RootNamespace>Community.PowerToys.Run.Plugin.ProcessKiller</RootNamespace>
-        <Version>$([System.Text.RegularExpressions.Regex]::Match([System.IO.File]::ReadAllText('.\plugin.json'), '"Version": "(\S+)"').Groups[1].Value)</Version>
+        <PluginJson>$([System.IO.File]::ReadAllText('$(MSBuildProjectDirectory)/plugin.json'))</PluginJson>
+        <Version>$([System.Text.RegularExpressions.Regex]::Match($(PluginJson), '"Version": "(\S+)"').Groups[1].Value)</Version>
         <Platforms>x64;ARM64</Platforms>
         <Title>Powertoys Run ProcessKiller</Title>
         <Product>Powertoys Run ProcessKiller Plugin</Product>
@@ -62,7 +63,7 @@
         <None Include="plugin.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <PackageReference Include="System.Management" Version="8.0.0" />
+        <PackageReference Include="System.Management" Version="9.0.0" />
         <None Update="Images\*.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
