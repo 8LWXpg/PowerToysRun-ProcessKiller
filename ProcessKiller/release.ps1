@@ -11,7 +11,7 @@ git push --tags
 
 Remove-Item ./out/*.zip -Recurse -Force -ErrorAction Ignore
 foreach ($arch in $archs) {
-	$releasePath = "./bin/$arch/Release/net8.0-windows"
+	$releasePath = "./bin/$arch/Release/net9.0-windows"
 
 	dotnet build -c Release /p:Platform=$arch
 
