@@ -89,7 +89,7 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 		// When there are multiple results AND all of them are instances of the same executable
 		// add a quick option to kill them all at the top of the results.
 		Result? topResult = sortedResults.OrderByDescending(e => e.Score).First();
-		IEnumerable<Result> killAll = sortedResults.Where(r => !string.IsNullOrEmpty(r.SubTitle) && r.SubTitle == topResult?.SubTitle);
+		List<Result> killAll = sortedResults.Where(r => !string.IsNullOrEmpty(r.SubTitle) && r.SubTitle == topResult?.SubTitle).ToList();
 		if (processes.Count > 1 && !string.IsNullOrEmpty(search) && killAll.Count() >= _killAllCount)
 		{
 			var name = ((Process)topResult?.ContextData!)?.ProcessName;
@@ -104,7 +104,7 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 				Action = c =>
 				{
 					// Kill all processes asynchronously
-					IEnumerable<Task<bool>> killTasks = killAll.Select(async r =>
+					List<Task<bool>> killTasks = killAll.ConvertAll(async r =>
 					{
 						var p = (Process)r.ContextData;
 						return await Task.Run(() => ProcessHelper.TryKill(p));
