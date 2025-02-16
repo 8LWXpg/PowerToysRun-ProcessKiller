@@ -24,7 +24,7 @@ internal class PortQuery
 		};
 		_ = process.Start();
 
-		List<Process> processes = Process.GetProcesses().Where(p => !ProcessHelper.SystemProcessList.Contains(p.ProcessName.ToLower())).ToList();
+		var processes = Process.GetProcesses().Where(p => !ProcessHelper.SystemProcessList.Contains(p.ProcessName.ToLower())).ToList();
 		Query = [];
 		foreach (var row in process.StandardOutput.ReadToEnd().Split("\r\n", StringSplitOptions.RemoveEmptyEntries).Skip(2))
 		{
