@@ -44,12 +44,18 @@ internal class PortQuery
 
 	public List<Result> GetMatchingResults(string search, string rawQuery, bool showCommandLine, string fallbackIcon, PluginInitContext context)
 	{
+		CommandLineQuery? commandLineQuery = null;
+		if (showCommandLine)
+		{
+			commandLineQuery = new CommandLineQuery();
+		}
+
 		List<Result> results = Query.ToList().ConvertAll(e =>
 		{
 			MatchResult matchResult = StringMatcher.FuzzySearch(search, e.Key);
 			Process process = e.Value;
 			var result = (showCommandLine ?
-				new ProcessResult(process, matchResult, new CommandLineQuery()) :
+				new ProcessResult(process, matchResult, commandLineQuery!) :
 				new ProcessResult(process, matchResult))
 				.ToResult(rawQuery, showCommandLine, fallbackIcon, context);
 			result.Title = e.Key;
