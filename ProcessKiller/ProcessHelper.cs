@@ -58,12 +58,11 @@ internal partial class ProcessHelper
 		foreach (Process p in processes)
 		{
 			MatchResult matchResult = StringMatcher.FuzzySearch(search, $"{p.ProcessName} - {p.Id}");
-			var score = matchResult.Score;
-			if (score > 0)
+			if (matchResult.Score > 0)
 			{
 				results.Add(showCommandLine ?
-					new ProcessResult(p, score, matchResult.MatchData, commandLineQuery!) :
-					new ProcessResult(p, score, matchResult.MatchData));
+					new ProcessResult(p, matchResult, commandLineQuery!) :
+					new ProcessResult(p, matchResult));
 			}
 		}
 

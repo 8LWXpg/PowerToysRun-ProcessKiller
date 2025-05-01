@@ -2,6 +2,8 @@ using Community.PowerToys.Run.Plugin.ProcessKiller.Properties;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
+using Wox.Infrastructure;
+using Wox.Plugin;
 using Wox.Plugin.Common.Win32;
 
 namespace Community.PowerToys.Run.Plugin.ProcessKiller;
@@ -25,6 +27,8 @@ internal class ProcessResult
 	/// </summary>
 	public string Path { get; }
 
+	public bool IconFallback { get; }
+
 	/// <summary>
 	/// Memory usage of the process
 	/// </summary>
@@ -32,22 +36,22 @@ internal class ProcessResult
 
 	public string? CommandLine { get; }
 
-	public ProcessResult(Process process, int score, List<int> matchData, CommandLineQuery commandLineQuery)
+	public ProcessResult(Process process, MatchResult matchResult, CommandLineQuery commandLineQuery)
 	{
 		Process = process;
-		Score = score;
-		MatchData = matchData;
-		Path = TryGetProcessFilename(process);
+		Score = matchResult.Score;
+		MatchData = matchResult.MatchData;
+		(IconFallback, Path) = TryGetProcessFilename(process);
 		CommandLine = commandLineQuery.GetCommandLine(process.Id);
 		MemoryUsage = process.WorkingSet64;
 	}
 
-	public ProcessResult(Process process, int score, List<int> matchData)
+	public ProcessResult(Process process, MatchResult matchResult)
 	{
 		Process = process;
-		Score = score;
-		MatchData = matchData;
-		Path = TryGetProcessFilename(process);
+		Score = matchResult.Score;
+		MatchData = matchResult.MatchData;
+		(IconFallback, Path) = TryGetProcessFilename(process);
 		MemoryUsage = process.WorkingSet64;
 	}
 
@@ -55,7 +59,7 @@ internal class ProcessResult
 	{
 		Process = process;
 		Score = 0;
-		Path = TryGetProcessFilename(process);
+		(IconFallback, Path) = TryGetProcessFilename(process);
 		CommandLine = commandLineQuery.GetCommandLine(process.Id);
 		MemoryUsage = process.WorkingSet64;
 	}
@@ -64,8 +68,27 @@ internal class ProcessResult
 	{
 		Process = process;
 		Score = 0;
-		Path = TryGetProcessFilename(process);
+		(IconFallback, Path) = TryGetProcessFilename(process);
 		MemoryUsage = process.WorkingSet64;
+	}
+
+	public Result ToResult(string rawQuery, bool showCommandLine, string fallbackIcon, PluginInitContext context)
+	{
+		return new Result()
+		{
+			Title = $"{Process.ProcessName} - {Process.Id}",
+			SubTitle = Path,
+			IcoPath = IconFallback ? fallbackIcon : Path,
+			Score = Score,
+			TitleHighlightData = MatchData,
+			ToolTipData = new ToolTipData($"{Process.ProcessName} - {Process.Id}", GetToolTipText(showCommandLine)),
+			Action = c =>
+			{
+				_ = ProcessHelper.TryKill(Process);
+				context.API.ChangeQuery(rawQuery, true);
+				return true;
+			}
+		};
 	}
 
 	public string GetToolTipText(bool showCommandLine)
@@ -97,18 +120,25 @@ internal class ProcessResult
 		return textBuilder.ToString();
 	}
 
-	private static string TryGetProcessFilename(Process p)
+	/// <summary>
+	/// Try to get path of the process. If not, returns process name.
+	/// </summary>
+	/// <param name="p"></param>
+	/// <returns></returns>
+	private static (bool, string) TryGetProcessFilename(Process p)
 	{
 		try
 		{
 			var capacity = 2000;
 			StringBuilder builder = new(capacity);
 			var ptr = NativeMethods.OpenProcess(ProcessAccessFlags.QueryLimitedInformation, false, p.Id);
-			return QueryFullProcessImageName(ptr, 0, builder, ref capacity) ? builder.ToString() : string.Empty;
+			return QueryFullProcessImageName(ptr, 0, builder, ref capacity) ?
+				(false, builder.ToString()) :
+				(true, p.ProcessName);
 		}
 		catch
 		{
-			return string.Empty;
+			return (true, p.ProcessName);
 		}
 	}
 

@@ -5,7 +5,7 @@ using Wox.Plugin;
 namespace Community.PowerToys.Run.Plugin.ProcessKiller;
 internal class PortQuery
 {
-	public readonly Dictionary<string, HashSet<Process>> Query;
+	public readonly Dictionary<string, Process> Query;
 
 	/// <summary>
 	/// parse output from <c>netstat.exe</c>
@@ -31,44 +31,30 @@ internal class PortQuery
 			var elements = row.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 			var localAddress = elements[1];
 			var pid = int.Parse(elements.Length > 4 ? elements[4] : elements[3]);
-			Process? pr = processes.Find(e => e.Id == pid);
+			Process? pr = processes.FirstOrDefault(e => e.Id == pid);
 			if (pr == null)
 			{
 				continue;
 			}
 
-			if (Query.TryGetValue(localAddress, out HashSet<Process>? value))
-			{
-				_ = value.Add(pr);
-			}
-			else
-			{
-				Query[localAddress] = [pr];
-			}
+			// There should be only one process using that address and port
+			Query[localAddress] = pr;
 		}
 	}
 
-	public List<Result> GetMatchingResults(string search, string rawQuery, string iconPath, PluginInitContext context)
+	public List<Result> GetMatchingResults(string search, string rawQuery, bool showCommandLine, string fallbackIcon, PluginInitContext context)
 	{
 		List<Result> results = Query.ToList().ConvertAll(e =>
 		{
-			MatchResult match = StringMatcher.FuzzySearch(search, e.Key);
-			var values = e.Value.ToList();
-			return new Result
-			{
-				Title = $"{e.Key}",
-				SubTitle = $"{string.Join(", ", values.ConvertAll(e => e.ProcessName))}",
-				Score = match.Score,
-				IcoPath = iconPath,
-				QueryTextDisplay = $":{search}",
-				TitleHighlightData = match.MatchData,
-				Action = _ =>
-				{
-					values.ForEach(e => ProcessHelper.TryKill(e));
-					context.API.ChangeQuery(rawQuery, true);
-					return true;
-				}
-			};
+			MatchResult matchResult = StringMatcher.FuzzySearch(search, e.Key);
+			Process process = e.Value;
+			var result = (showCommandLine ?
+				new ProcessResult(process, matchResult, new CommandLineQuery()) :
+				new ProcessResult(process, matchResult))
+				.ToResult(rawQuery, showCommandLine, fallbackIcon, context);
+			result.Title = e.Key;
+			result.QueryTextDisplay = $":{search}";
+			return result;
 		});
 
 		if (!string.IsNullOrWhiteSpace(search))

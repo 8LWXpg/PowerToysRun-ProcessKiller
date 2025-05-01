@@ -21,6 +21,7 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 	private bool _showCommandLine;
 	private bool _showShellExplorer;
 	private string? _portIcon;
+	private string? _processIcon;
 
 	public IEnumerable<PluginAdditionalOption> AdditionalOptions =>
 	[
@@ -59,42 +60,23 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 		var search = query.Search;
 		if (search.StartsWith(':'))
 		{
-			return new PortQuery().GetMatchingResults(search[1..], query.RawQuery, _portIcon!, _context!);
+			return new PortQuery().GetMatchingResults(search[1..], query.RawQuery, _showCommandLine, _portIcon!, _context!);
 		}
 
-		List<ProcessResult> processes = ProcessHelper.GetMatchingProcesses(search, _showCommandLine, _showShellExplorer);
-		List<Result> sortedResults = processes.ConvertAll(pr =>
-			{
-				Process p = pr.Process;
-				var path = pr.Path;
-				return new Result()
-				{
-					IcoPath = path,
-					Title = $"{p.ProcessName} - {p.Id}",
-					SubTitle = path,
-					TitleHighlightData = pr.MatchData,
-					Score = pr.Score,
-					ContextData = p,
-					ToolTipData = new ToolTipData($"{p.ProcessName} - {p.Id}", pr.GetToolTipText(_showCommandLine)),
-					Action = c =>
-					{
-						_ = ProcessHelper.TryKill(p);
-						_context!.API.ChangeQuery(query.RawQuery, true);
-						return true;
-					}
-				};
-			});
-		sortedResults.Reverse();
+		List<Result> results = ProcessHelper
+			.GetMatchingProcesses(search, _showCommandLine, _showShellExplorer)
+			.ConvertAll(e => e.ToResult(query.RawQuery, _showCommandLine, _processIcon!, _context!));
+		results.Reverse();
 
 		// When there are multiple results AND all of them are instances of the same executable
 		// add a quick option to kill them all at the top of the results.
-		Result? topResult = sortedResults.OrderByDescending(e => e.Score).First();
-		var killAll = sortedResults.Where(r => !string.IsNullOrEmpty(r.SubTitle) && r.SubTitle == topResult?.SubTitle).ToList();
-		if (processes.Count > 1 && !string.IsNullOrEmpty(search) && killAll.Count() >= _killAllCount)
+		Result? topResult = results.OrderByDescending(e => e.Score).First();
+		var killAll = results.Where(r => !string.IsNullOrEmpty(r.SubTitle) && r.SubTitle == topResult?.SubTitle).ToList();
+		if (results.Count > 1 && !string.IsNullOrEmpty(search) && killAll.Count >= _killAllCount)
 		{
 			var name = ((Process)topResult?.ContextData!)?.ProcessName;
 			var totalMemory = killAll.Sum(r => ((Process)r.ContextData).WorkingSet64);
-			sortedResults.Insert(1, new Result()
+			results.Insert(1, new Result()
 			{
 				IcoPath = topResult?.IcoPath,
 				Title = string.Format(Resources.plugin_kill_all, name),
@@ -117,7 +99,7 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 			});
 		}
 
-		return sortedResults;
+		return results;
 	}
 
 	public void Init(PluginInitContext context)
@@ -129,7 +111,19 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 
 	private void OnThemeChanged(Theme currentTheme, Theme newTheme) => UpdateIconPath(newTheme);
 
-	private void UpdateIconPath(Theme theme) => _portIcon = theme is Theme.Light or Theme.HighContrastWhite ? "Images\\Port.light.png" : "Images\\Port.dark.png";
+	private void UpdateIconPath(Theme theme)
+	{
+		if (theme is Theme.Light or Theme.HighContrastWhite)
+		{
+			_portIcon = "Images/Port.light.png";
+			_processIcon = "Images/Process.light.png";
+		}
+		else
+		{
+			_portIcon = "Images/Port.dark.png";
+			_processIcon = "Images/Process.dark.png";
+		}
+	}
 
 	public string GetTranslatedPluginTitle() => Resources.plugin_name;
 
