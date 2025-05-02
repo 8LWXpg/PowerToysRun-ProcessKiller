@@ -14,11 +14,12 @@ public static class ProcessQuery
 		var processes = Process.GetProcesses().Where(p => !ProcessHelper.IsSystemProcess(p) && (p.Id != shellWindowId || showShellExplorer)).ToList();
 		CommandLineQuery? commandLineQuery = showCommandLine ? new() : null;
 
-		List<Result> results = processes.ConvertAll(p =>
-		{
-			MatchResult matchResult = StringMatcher.FuzzySearch(search, $"{p.ProcessName} - {p.Id}");
-			return new ProcessResult(p, matchResult, commandLineQuery).ToResult(rawQuery, showCommandLine, fallbackIcon, context);
-		});
+		List<Result> results = processes
+			.ConvertAll(p =>
+			{
+				MatchResult matchResult = StringMatcher.FuzzySearch(search, $"{p.ProcessName} - {p.Id}");
+				return (Result)new ProcessResult(p, matchResult, commandLineQuery, rawQuery, showCommandLine, fallbackIcon, context);
+			});
 
 		if (!string.IsNullOrWhiteSpace(search))
 		{

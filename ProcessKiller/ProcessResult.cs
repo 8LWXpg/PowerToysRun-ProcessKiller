@@ -8,93 +8,46 @@ using Wox.Plugin.Common.Win32;
 
 namespace Community.PowerToys.Run.Plugin.ProcessKiller;
 
-internal class ProcessResult
+public class ProcessResult : Result
 {
-	public Process Process { get; }
-
-	/// <summary>
-	/// Fuzzy search score
-	/// </summary>
-	public int Score { get; }
-
-	/// <summary>
-	/// Fuzzy search match data
-	/// </summary>
-	public List<int>? MatchData { get; }
-
-	/// <summary>
-	/// Full path to the process executable
-	/// </summary>
-	public string Path { get; }
-
-	public bool IconFallback { get; }
-
-	/// <summary>
-	/// Memory usage of the process
-	/// </summary>
-	public long MemoryUsage { get; }
-
-	public string? CommandLine { get; }
-
-	public ProcessResult(Process process, MatchResult matchResult, CommandLineQuery? commandLineQuery)
+	public ProcessResult(Process process, MatchResult matchResult, CommandLineQuery? commandLineQuery, string rawQuery, bool showCommandLine, string fallbackIcon, PluginInitContext context)
 	{
-		Process = process;
+		(var iconFallback, var path) = TryGetProcessFilename(process);
+		var commandLine = commandLineQuery is null ? null : commandLineQuery.GetCommandLine(process.Id);
+
+		Title = $"{process.ProcessName} - {process.Id}";
+		SubTitle = path;
+		IcoPath = iconFallback ? fallbackIcon : path;
 		Score = matchResult.Score;
-		MatchData = matchResult.MatchData;
-		(IconFallback, Path) = TryGetProcessFilename(process);
-		MemoryUsage = process.WorkingSet64;
-		if (commandLineQuery is not null)
+		TitleHighlightData = matchResult.MatchData;
+		ToolTipData = new ToolTipData($"{process.ProcessName} - {process.Id}", GetToolTipText(process, process.WorkingSet64, path, showCommandLine, commandLine));
+		ContextData = process;
+		Action = c =>
 		{
-			CommandLine = commandLineQuery.GetCommandLine(process.Id);
-		}
-	}
-
-	public Result ToResult(string rawQuery, bool showCommandLine, string fallbackIcon, PluginInitContext context)
-	{
-		return new Result()
-		{
-			Title = $"{Process.ProcessName} - {Process.Id}",
-			SubTitle = Path,
-			IcoPath = IconFallback ? fallbackIcon : Path,
-			Score = Score,
-			TitleHighlightData = MatchData,
-			ToolTipData = new ToolTipData($"{Process.ProcessName} - {Process.Id}", GetToolTipText(showCommandLine)),
-			ContextData = Process,
-			Action = c =>
-			{
-				_ = ProcessHelper.TryKill(Process);
-				context.API.ChangeQuery(rawQuery, true);
-				return true;
-			}
+			_ = ProcessHelper.TryKill(process);
+			context.API.ChangeQuery(rawQuery, true);
+			return true;
 		};
 	}
 
-	public string GetToolTipText(bool showCommandLine)
+	private static string GetToolTipText(Process process, long memoryUsage, string path, bool showCommandLine, string? commandLine)
 	{
 		var textBuilder = new StringBuilder();
 
-		if (!string.IsNullOrWhiteSpace(Process.MainWindowTitle))
+		if (!string.IsNullOrWhiteSpace(process.MainWindowTitle))
 		{
-			_ = textBuilder.AppendLine($"{Resources.plugin_tool_tip_main_window}:\n  {Process.MainWindowTitle}");
+			_ = textBuilder.AppendLine($"{Resources.plugin_tool_tip_main_window}:\n  {process.MainWindowTitle}");
 		}
 
-		_ = textBuilder.AppendLine($"{Resources.plugin_tool_tip_memory}:\n  {FormatMemorySize(MemoryUsage)}");
+		_ = textBuilder.AppendLine($"{Resources.plugin_tool_tip_memory}:\n  {FormatMemorySize(memoryUsage)}");
+		_ = textBuilder.AppendLine($"{Resources.plugin_tool_tip_path}:\n  {path}");
 
-		if (!string.IsNullOrWhiteSpace(Path))
+		if (showCommandLine && !string.IsNullOrWhiteSpace(commandLine))
 		{
-			_ = textBuilder.AppendLine($"{Resources.plugin_tool_tip_path}:\n  {Path}");
+			_ = textBuilder.AppendLine($"{Resources.plugin_tool_tip_command_line}:\n  {commandLine}");
 		}
 
-		if (showCommandLine && !string.IsNullOrWhiteSpace(CommandLine))
-		{
-			_ = textBuilder.AppendLine($"{Resources.plugin_tool_tip_command_line}:\n  {CommandLine}");
-		}
-
-		if (textBuilder.Length > 0)
-		{
-			textBuilder.Length -= 2; // Length of "\r\n"
-		}
-
+		textBuilder.Length -= 2; // Length of "\r\n"
 		return textBuilder.ToString();
 	}
 

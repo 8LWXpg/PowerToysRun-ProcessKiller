@@ -5,7 +5,7 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller;
 /// Query all running processes and their command lines using WMI.
 /// A lot faster then querying each process individually
 /// </summary>
-internal class CommandLineQuery
+public class CommandLineQuery
 {
 	public readonly Dictionary<int, string?> query = [];
 

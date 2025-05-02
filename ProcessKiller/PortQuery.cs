@@ -46,16 +46,18 @@ internal class PortQuery
 	{
 		CommandLineQuery? commandLineQuery = showCommandLine ? new() : null;
 
-		List<Result> results = Query.ToList().ConvertAll(e =>
-		{
-			MatchResult matchResult = StringMatcher.FuzzySearch(search, e.Key);
-			Process process = e.Value;
-			var result = new ProcessResult(process, matchResult, commandLineQuery)
-				.ToResult(rawQuery, showCommandLine, fallbackIcon, context);
-			result.Title = e.Key;
-			result.QueryTextDisplay = $":{search}";
-			return result;
-		});
+		List<Result> results = [.. Query
+			.Select(e =>
+			{
+				MatchResult matchResult = StringMatcher.FuzzySearch(search, e.Key);
+				Process process = e.Value;
+				var result = new ProcessResult(process, matchResult, commandLineQuery, rawQuery, showCommandLine, fallbackIcon, context)
+				{
+					Title = e.Key,
+					QueryTextDisplay = $":{search}"
+				};
+				return (Result)result;
+			})];
 
 		if (!string.IsNullOrWhiteSpace(search))
 		{
