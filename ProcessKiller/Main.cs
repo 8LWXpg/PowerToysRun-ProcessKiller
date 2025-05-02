@@ -63,9 +63,7 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 			return new PortQuery().GetMatchingResults(search[1..], query.RawQuery, _showCommandLine, _portIcon!, _context!);
 		}
 
-		List<Result> results = ProcessHelper
-			.GetMatchingProcesses(search, _showCommandLine, _showShellExplorer)
-			.ConvertAll(e => e.ToResult(query.RawQuery, _showCommandLine, _processIcon!, _context!));
+		List<Result> results = ProcessQuery.GetMatchingResults(search, query.RawQuery, _showCommandLine, _showShellExplorer, _processIcon!, _context!);
 		results.Reverse();
 
 		// When there are multiple results AND all of them are instances of the same executable

@@ -9,6 +9,9 @@ internal class CommandLineQuery
 {
 	public readonly Dictionary<int, string?> query = [];
 
+	/// <summary>
+	/// This class initialization is slow, share the same instance instead of creating a new one.
+	/// </summary>
 	public CommandLineQuery()
 	{
 		var query = "SELECT ProcessId, CommandLine FROM Win32_Process";

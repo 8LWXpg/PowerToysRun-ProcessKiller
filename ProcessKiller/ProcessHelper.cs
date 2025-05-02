@@ -5,9 +5,9 @@ using Wox.Plugin.Logger;
 
 namespace Community.PowerToys.Run.Plugin.ProcessKiller;
 
-internal partial class ProcessHelper
+internal static class ProcessHelper
 {
-	public static readonly HashSet<string> SystemProcessList =
+	private static readonly HashSet<string> SystemProcessList =
 	[
 		"conhost",
 		"svchost",
@@ -26,47 +26,12 @@ internal partial class ProcessHelper
 		"wmiprvse",
 	];
 
-	private static bool IsSystemProcess(Process p) => SystemProcessList.Contains(p.ProcessName.ToLower());
+	public static bool IsSystemProcess(Process p) => SystemProcessList.Contains(p.ProcessName.ToLower());
 
-	private static uint GetProcessIDFromWindowHandle(IntPtr hwnd)
+	public static uint GetProcessIDFromWindowHandle(IntPtr hwnd)
 	{
 		_ = NativeMethods.GetWindowThreadProcessId(hwnd, out var processId);
 		return processId;
-	}
-
-	/// <summary>
-	/// Returns a ProcessResult for every running non-system process whose name matches the given search
-	/// </summary>
-	public static List<ProcessResult> GetMatchingProcesses(string search, bool showCommandLine, bool showShellExplorer)
-	{
-		var shellWindowId = GetProcessIDFromWindowHandle(NativeMethods.GetShellWindow());
-		var processes = Process.GetProcesses().Where(p => !IsSystemProcess(p) && (p.Id != shellWindowId || showShellExplorer)).ToList();
-		CommandLineQuery? commandLineQuery = null;
-		if (showCommandLine)
-		{
-			commandLineQuery = new CommandLineQuery();
-		}
-
-		if (string.IsNullOrWhiteSpace(search))
-		{
-			return processes.ConvertAll(p => showCommandLine ?
-				new ProcessResult(p, commandLineQuery!) :
-				new ProcessResult(p));
-		}
-
-		List<ProcessResult> results = [];
-		foreach (Process p in processes)
-		{
-			MatchResult matchResult = StringMatcher.FuzzySearch(search, $"{p.ProcessName} - {p.Id}");
-			if (matchResult.Score > 0)
-			{
-				results.Add(showCommandLine ?
-					new ProcessResult(p, matchResult, commandLineQuery!) :
-					new ProcessResult(p, matchResult));
-			}
-		}
-
-		return results;
 	}
 
 	public static bool TryKill(Process p)

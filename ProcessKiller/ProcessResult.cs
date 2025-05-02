@@ -36,40 +36,17 @@ internal class ProcessResult
 
 	public string? CommandLine { get; }
 
-	public ProcessResult(Process process, MatchResult matchResult, CommandLineQuery commandLineQuery)
-	{
-		Process = process;
-		Score = matchResult.Score;
-		MatchData = matchResult.MatchData;
-		(IconFallback, Path) = TryGetProcessFilename(process);
-		CommandLine = commandLineQuery.GetCommandLine(process.Id);
-		MemoryUsage = process.WorkingSet64;
-	}
-
-	public ProcessResult(Process process, MatchResult matchResult)
+	public ProcessResult(Process process, MatchResult matchResult, CommandLineQuery? commandLineQuery)
 	{
 		Process = process;
 		Score = matchResult.Score;
 		MatchData = matchResult.MatchData;
 		(IconFallback, Path) = TryGetProcessFilename(process);
 		MemoryUsage = process.WorkingSet64;
-	}
-
-	public ProcessResult(Process process, CommandLineQuery commandLineQuery)
-	{
-		Process = process;
-		Score = 0;
-		(IconFallback, Path) = TryGetProcessFilename(process);
-		CommandLine = commandLineQuery.GetCommandLine(process.Id);
-		MemoryUsage = process.WorkingSet64;
-	}
-
-	public ProcessResult(Process process)
-	{
-		Process = process;
-		Score = 0;
-		(IconFallback, Path) = TryGetProcessFilename(process);
-		MemoryUsage = process.WorkingSet64;
+		if (commandLineQuery is not null)
+		{
+			CommandLine = commandLineQuery.GetCommandLine(process.Id);
+		}
 	}
 
 	public Result ToResult(string rawQuery, bool showCommandLine, string fallbackIcon, PluginInitContext context)
@@ -82,6 +59,7 @@ internal class ProcessResult
 			Score = Score,
 			TitleHighlightData = MatchData,
 			ToolTipData = new ToolTipData($"{Process.ProcessName} - {Process.Id}", GetToolTipText(showCommandLine)),
+			ContextData = Process,
 			Action = c =>
 			{
 				_ = ProcessHelper.TryKill(Process);

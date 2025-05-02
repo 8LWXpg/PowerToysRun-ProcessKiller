@@ -24,7 +24,7 @@ internal class PortQuery
 		};
 		_ = process.Start();
 
-		var processes = Process.GetProcesses().Where(p => !ProcessHelper.SystemProcessList.Contains(p.ProcessName.ToLower())).ToList();
+		var processes = Process.GetProcesses().Where(p => !ProcessHelper.IsSystemProcess(p)).ToList();
 		Query = [];
 		foreach (var row in process.StandardOutput.ReadToEnd().Split("\r\n", StringSplitOptions.RemoveEmptyEntries).Skip(2))
 		{
@@ -44,19 +44,13 @@ internal class PortQuery
 
 	public List<Result> GetMatchingResults(string search, string rawQuery, bool showCommandLine, string fallbackIcon, PluginInitContext context)
 	{
-		CommandLineQuery? commandLineQuery = null;
-		if (showCommandLine)
-		{
-			commandLineQuery = new CommandLineQuery();
-		}
+		CommandLineQuery? commandLineQuery = showCommandLine ? new() : null;
 
 		List<Result> results = Query.ToList().ConvertAll(e =>
 		{
 			MatchResult matchResult = StringMatcher.FuzzySearch(search, e.Key);
 			Process process = e.Value;
-			var result = (showCommandLine ?
-				new ProcessResult(process, matchResult, commandLineQuery!) :
-				new ProcessResult(process, matchResult))
+			var result = new ProcessResult(process, matchResult, commandLineQuery)
 				.ToResult(rawQuery, showCommandLine, fallbackIcon, context);
 			result.Title = e.Key;
 			result.QueryTextDisplay = $":{search}";
