@@ -16,8 +16,8 @@ internal class PortQuery
 		{
 			StartInfo = new()
 			{
-				Arguments = "-a -n -o",
 				FileName = "netstat.exe",
+				Arguments = "-a -n -o",
 				RedirectStandardOutput = true,
 				WindowStyle = ProcessWindowStyle.Hidden,
 			}

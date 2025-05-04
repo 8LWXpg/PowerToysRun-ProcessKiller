@@ -20,7 +20,7 @@ public class ProcessResult : Result
 		IcoPath = iconFallback ? fallbackIcon : path;
 		Score = matchResult.Score;
 		TitleHighlightData = matchResult.MatchData;
-		ToolTipData = new ToolTipData($"{process.ProcessName} - {process.Id}", GetToolTipText(process, process.WorkingSet64, path, showCommandLine, commandLine));
+		ToolTipData = new ToolTipData($"{process.ProcessName} - {process.Id}", GetToolTipText(process, path, showCommandLine, commandLine));
 		ContextData = process;
 		Action = c =>
 		{
@@ -30,7 +30,7 @@ public class ProcessResult : Result
 		};
 	}
 
-	private static string GetToolTipText(Process process, long memoryUsage, string path, bool showCommandLine, string? commandLine)
+	private static string GetToolTipText(Process process, string path, bool showCommandLine, string? commandLine)
 	{
 		var textBuilder = new StringBuilder();
 
@@ -39,7 +39,7 @@ public class ProcessResult : Result
 			_ = textBuilder.AppendLine($"{Resources.plugin_tool_tip_main_window}:\n  {process.MainWindowTitle}");
 		}
 
-		_ = textBuilder.AppendLine($"{Resources.plugin_tool_tip_memory}:\n  {FormatMemorySize(memoryUsage)}");
+		_ = textBuilder.AppendLine($"{Resources.plugin_tool_tip_memory}:\n  {FormatMemorySize(process.WorkingSet64)}");
 		_ = textBuilder.AppendLine($"{Resources.plugin_tool_tip_path}:\n  {path}");
 
 		if (showCommandLine && !string.IsNullOrWhiteSpace(commandLine))
@@ -60,12 +60,16 @@ public class ProcessResult : Result
 	{
 		try
 		{
-			var capacity = 2000;
-			StringBuilder builder = new(capacity);
-			var ptr = NativeMethods.OpenProcess(ProcessAccessFlags.QueryLimitedInformation, false, p.Id);
-			return QueryFullProcessImageName(ptr, 0, builder, ref capacity) ?
-				(false, builder.ToString()) :
-				(true, p.ProcessName);
+			var bufferSize = 2048;
+			unsafe
+			{
+				var buffer = stackalloc char[bufferSize];
+				var len = bufferSize;
+				var ptr = NativeMethods.OpenProcess(ProcessAccessFlags.QueryLimitedInformation, false, p.Id);
+				return QueryFullProcessImageName(ptr, 0, buffer, ref len) ?
+					(false, new(buffer)) :
+					(true, p.ProcessName);
+			}
 		}
 		catch
 		{
@@ -74,10 +78,10 @@ public class ProcessResult : Result
 	}
 
 	[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-	private static extern bool QueryFullProcessImageName(
+	private static extern unsafe bool QueryFullProcessImageName(
 		[In] IntPtr hProcess,
 		[In] int dwFlags,
-		[Out] StringBuilder lpExeName,
+		[Out] char* lpExeName,
 		ref int lpdwSize);
 
 	private const double KB = 1024;
