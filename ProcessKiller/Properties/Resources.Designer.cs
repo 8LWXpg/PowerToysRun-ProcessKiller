@@ -61,7 +61,7 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Kill a process..
+        ///   Looks up a localized string similar to Kill a process.
         /// </summary>
         internal static string plugin_description {
             get {
@@ -70,7 +70,7 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Kill all instances of &quot;{0}&quot;.
+        ///   Looks up a localized string similar to Kill all instances of "{0}".
         /// </summary>
         internal static string plugin_kill_all {
             get {
@@ -106,7 +106,7 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Minimun matches to show &quot;Kill all instances&quot;.
+        ///   Looks up a localized string similar to Minimum matches to show "Kill all instances".
         /// </summary>
         internal static string plugin_setting_kill_all_count {
             get {
@@ -124,7 +124,7 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This may slow down the plugin..
+        ///   Looks up a localized string similar to This may slow down the plugin.
         /// </summary>
         internal static string plugin_setting_show_command_line_description {
             get {
@@ -133,7 +133,7 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Showing explorer.exe that hosts Windows Shell.
+        ///   Looks up a localized string similar to Show explorer.exe that hosts Windows Shell.
         /// </summary>
         internal static string plugin_setting_show_shell_explorer {
             get {

@@ -4,7 +4,7 @@ A [PowerToys Run](https://aka.ms/PowerToysOverview_PowerToysRun) plugin for kill
 
 Derived from FlowLauncher Plugin [ProcessKiller](https://github.com/Flow-Launcher/Flow.Launcher/tree/dev/Plugins/Flow.Launcher.Plugin.ProcessKiller).
 
-Checkout the [Template](https://github.com/8LWXpg/PowerToysRun-PluginTemplate) for a starting point to create your own plugin.
+Check out the [Template](https://github.com/8LWXpg/PowerToysRun-PluginTemplate) for a starting point to create your own plugin.
 
 ## Features
 
@@ -18,7 +18,7 @@ Checkout the [Template](https://github.com/8LWXpg/PowerToysRun-PluginTemplate) f
 
 ### Kill a process by Port number
 
-use `kl : <ip:port>` to search for IP and Port.
+Use `kl : <ip:port>` to search for IP and Port.
 
 ![kill by port](./assets/port.png)
 
@@ -44,7 +44,7 @@ ptr add ProcessKiller 8LWXpg/PowerToysRun-ProcessKiller
 ## Building
 
 1. Clone the repository and the dependencies in `/lib` with `ProcessKiller/copyLib.ps1`.
-2. run `dotnet build -c Release`.
+2. Run `dotnet build -c Release`.
 
 ## Debugging
 

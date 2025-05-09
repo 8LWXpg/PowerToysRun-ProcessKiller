@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="plugin_description" xml:space="preserve">
-    <value>Kill a process.</value>
+    <value>Kill a process</value>
   </data>
   <data name="plugin_kill_all" xml:space="preserve">
     <value>Kill all instances of "{0}"</value>
@@ -139,7 +139,7 @@
     <value>Show command line of the process in the tool tip</value>
   </data>
   <data name="plugin_setting_show_command_line_description" xml:space="preserve">
-    <value>This may slow down the plugin.</value>
+    <value>This may slow down the plugin</value>
   </data>
   <data name="plugin_setting_show_shell_explorer" xml:space="preserve">
     <value>Show explorer.exe that hosts Windows Shell</value>

@@ -3,7 +3,7 @@ using System.Management;
 namespace Community.PowerToys.Run.Plugin.ProcessKiller;
 /// <summary>
 /// Query all running processes and their command lines using WMI.
-/// A lot faster then querying each process individually
+/// A lot faster than querying each process individually
 /// </summary>
 public class CommandLineQuery
 {

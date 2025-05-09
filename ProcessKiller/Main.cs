@@ -78,7 +78,7 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 			{
 				IcoPath = topResult?.IcoPath,
 				Title = string.Format(Resources.plugin_kill_all, name),
-				SubTitle = string.Format(Resources.plugin_kill_all_count, killAll.Count()),
+				SubTitle = string.Format(Resources.plugin_kill_all_count, killAll.Count),
 				ToolTipData = new ToolTipData(name, $"{Resources.plugin_tool_tip_memory}:\n  {ProcessResult.FormatMemorySize(totalMemory)}"),
 				Score = 200,
 				Action = c =>
