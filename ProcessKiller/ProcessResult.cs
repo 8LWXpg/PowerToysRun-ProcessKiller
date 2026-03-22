@@ -1,7 +1,9 @@
 using Community.PowerToys.Run.Plugin.ProcessKiller.Properties;
+using Microsoft.Win32.SafeHandles;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
+using Windows.Win32;
 using Wox.Infrastructure;
 using Wox.Plugin;
 using Wox.Plugin.Common.Win32;
@@ -12,12 +14,12 @@ public class ProcessResult : Result
 {
 	public ProcessResult(Process process, MatchResult matchResult, CommandLineQuery? commandLineQuery, string rawQuery, bool showCommandLine, string fallbackIcon, PluginInitContext context)
 	{
-		(var iconFallback, var path) = TryGetProcessFilename(process);
-		var commandLine = commandLineQuery is null ? null : commandLineQuery.GetCommandLine(process.Id);
+		var gotPath = TryGetProcessFilename(process, out var path);
+		var commandLine = commandLineQuery?.GetCommandLine(process.Id);
 
 		Title = $"{process.ProcessName} - {process.Id}";
 		SubTitle = path;
-		IcoPath = iconFallback ? fallbackIcon : path;
+		IcoPath = gotPath ? path : fallbackIcon;
 		Score = matchResult.Score;
 		TitleHighlightData = matchResult.MatchData;
 		ToolTipData = new ToolTipData($"{process.ProcessName} - {process.Id}", GetToolTipText(process, path, showCommandLine, commandLine));
@@ -56,33 +58,17 @@ public class ProcessResult : Result
 	/// </summary>
 	/// <param name="p"></param>
 	/// <returns></returns>
-	private static (bool, string) TryGetProcessFilename(Process p)
+	public static bool TryGetProcessFilename(Process p, out string path)
 	{
-		try
-		{
-			var bufferSize = 2048;
-			unsafe
-			{
-				var buffer = stackalloc char[bufferSize];
-				var len = bufferSize;
-				var ptr = NativeMethods.OpenProcess(ProcessAccessFlags.QueryLimitedInformation, false, p.Id);
-				return QueryFullProcessImageName(ptr, 0, buffer, ref len) ?
-					(false, new(buffer)) :
-					(true, p.ProcessName);
-			}
-		}
-		catch
-		{
-			return (true, p.ProcessName);
-		}
+		uint bufferSize = 2048;
+		Span<char> buffer = stackalloc char[(int)bufferSize];
+		var len = bufferSize;
+		var ptr = NativeMethods.OpenProcess(ProcessAccessFlags.QueryLimitedInformation, false, p.Id);
+		SafeProcessHandle handle = new(ptr, true);
+		var success = (bool)PInvoke.QueryFullProcessImageName(handle, 0, buffer, ref len);
+		path = success ? new string(buffer[..(int)len]) : p.ProcessName;
+		return success;
 	}
-
-	[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-	private static extern unsafe bool QueryFullProcessImageName(
-		[In] IntPtr hProcess,
-		[In] int dwFlags,
-		[Out] char* lpExeName,
-		ref int lpdwSize);
 
 	private const double KB = 1024;
 	private const double MB = KB * 1024;

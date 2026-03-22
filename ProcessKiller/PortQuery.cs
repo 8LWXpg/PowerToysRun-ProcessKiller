@@ -3,6 +3,7 @@ using Wox.Infrastructure;
 using Wox.Plugin;
 
 namespace Community.PowerToys.Run.Plugin.ProcessKiller;
+
 internal class PortQuery
 {
 	public readonly Dictionary<string, Process> Query;
