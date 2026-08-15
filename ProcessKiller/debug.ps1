@@ -8,7 +8,7 @@ sudo {
 	# change this to your PowerToys installation path
 	$ptPath = 'C:\Program Files\PowerToys'
 	$project = 'ProcessKiller'
-	$debug = '.\bin\x64\Debug\net10.0-windows'
+	$debug = '.\bin\Debug\net10.0-windows'
 	$dest = "$env:LOCALAPPDATA\Microsoft\PowerToys\PowerToys Run\Plugins\$project"
 	$files = @(
 		"Community.PowerToys.Run.Plugin.$project.deps.json",

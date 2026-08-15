@@ -45,6 +45,9 @@
         <Reference Include="Wox.Plugin">
             <HintPath>.\Lib\Wox.Plugin.dll</HintPath>
         </Reference>
+        <Reference Include="System.Management">
+            <HintPath>.\Lib\System.Management.dll</HintPath>
+        </Reference>
     </ItemGroup>
 
     <ItemGroup>
@@ -67,7 +70,6 @@
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
           <PrivateAssets>all</PrivateAssets>
         </PackageReference>
-        <PackageReference Include="System.Management" Version="10.0.10" />
         <None Update="Images\*.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
