@@ -147,6 +147,11 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 	{
 		if (!_disposed && disposing)
 		{
+			if (_context is not null)
+			{
+				_context.API.ThemeChanged -= OnThemeChanged;
+			}
+
 			_disposed = true;
 		}
 	}

@@ -1,5 +1,4 @@
-Push-Location
-Set-Location $PSScriptRoot
+Push-Location $PSScriptRoot
 
 $name = 'ProcessKiller'
 $assembly = "Community.PowerToys.Run.Plugin.$name"
@@ -11,7 +10,7 @@ git push --tags
 
 Remove-Item ./out/*.zip -Recurse -Force -ErrorAction Ignore
 foreach ($arch in $archs) {
-	$releasePath = "./bin/$arch/Release/net9.0-windows"
+	$releasePath = "./bin/$arch/Release/net10.0-windows"
 
 	dotnet build -c Release /p:Platform=$arch
 

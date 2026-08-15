@@ -10,8 +10,8 @@ public static class ProcessQuery
 {
 	public static List<Result> GetMatchingResults(string search, string rawQuery, bool showCommandLine, bool showShellExplorer, string fallbackIcon, PluginInitContext context)
 	{
-		var shellWindowId = ProcessHelper.GetProcessIDFromWindowHandle(NativeMethods.GetShellWindow());
-		var processes = Process.GetProcesses().Where(p => !ProcessHelper.IsSystemProcess(p) && (p.Id != shellWindowId || showShellExplorer)).ToList();
+		var excludeId = showShellExplorer ? null : (int?)ProcessHelper.GetProcessIDFromWindowHandle(NativeMethods.GetShellWindow());
+		List<Process> processes = ProcessHelper.GetNonSystemProcesses(excludeId);
 		CommandLineQuery? commandLineQuery = showCommandLine ? new() : null;
 
 		List<Result> results = processes
@@ -23,6 +23,11 @@ public static class ProcessQuery
 
 		if (!string.IsNullOrWhiteSpace(search))
 		{
+			foreach (var r in results.Where(r => r.Score <= 0))
+			{
+				((Process)r.ContextData).Dispose();
+			}
+
 			_ = results.RemoveAll(r => r.Score <= 0);
 		}
 

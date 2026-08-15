@@ -1,7 +1,6 @@
 # this script uses [gsudo](https://github.com/gerardog/gsudo)
 
-Push-Location
-Set-Location $PSScriptRoot
+Push-Location $PSScriptRoot
 
 sudo {
 	Start-Job { Stop-Process -Name PowerToys* } | Wait-Job > $null
@@ -9,7 +8,7 @@ sudo {
 	# change this to your PowerToys installation path
 	$ptPath = 'C:\Program Files\PowerToys'
 	$project = 'ProcessKiller'
-	$debug = '.\bin\x64\Debug\net9.0-windows'
+	$debug = '.\bin\x64\Debug\net10.0-windows'
 	$dest = "$env:LOCALAPPDATA\Microsoft\PowerToys\PowerToys Run\Plugins\$project"
 	$files = @(
 		"Community.PowerToys.Run.Plugin.$project.deps.json",

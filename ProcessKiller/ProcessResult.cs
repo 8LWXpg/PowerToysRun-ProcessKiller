@@ -64,7 +64,7 @@ public class ProcessResult : Result
 		Span<char> buffer = stackalloc char[(int)bufferSize];
 		var len = bufferSize;
 		var ptr = NativeMethods.OpenProcess(ProcessAccessFlags.QueryLimitedInformation, false, p.Id);
-		SafeProcessHandle handle = new(ptr, true);
+		using SafeProcessHandle handle = new(ptr, true);
 		var success = (bool)PInvoke.QueryFullProcessImageName(handle, 0, buffer, ref len);
 		path = success ? new string(buffer[..(int)len]) : p.ProcessName;
 		return success;

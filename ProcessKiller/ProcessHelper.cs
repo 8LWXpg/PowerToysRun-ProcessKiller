@@ -26,12 +26,33 @@ internal static class ProcessHelper
 		"wmiprvse",
 	];
 
-	public static bool IsSystemProcess(Process p) => SystemProcessList.Contains(p.ProcessName.ToLower());
+	private static bool IsSystemProcess(Process p) => SystemProcessList.Contains(p.ProcessName.ToLower());
 
 	public static uint GetProcessIDFromWindowHandle(IntPtr hwnd)
 	{
 		_ = NativeMethods.GetWindowThreadProcessId(hwnd, out var processId);
 		return processId;
+	}
+
+	/// <summary>
+	/// Returns all non-system processes. Any process filtered out is disposed immediately
+	/// so its handle isn't leaked.
+	/// </summary>
+	public static List<Process> GetNonSystemProcesses(int? excludeProcessId = null)
+	{
+		List<Process> result = [];
+		foreach (Process p in Process.GetProcesses())
+		{
+			if (IsSystemProcess(p) || p.Id == excludeProcessId)
+			{
+				p.Dispose();
+				continue;
+			}
+
+			result.Add(p);
+		}
+
+		return result;
 	}
 
 	public static bool TryKill(Process p)

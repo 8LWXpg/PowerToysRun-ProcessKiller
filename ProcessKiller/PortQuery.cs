@@ -13,7 +13,7 @@ internal class PortQuery
 	/// </summary>
 	public PortQuery()
 	{
-		var process = new Process
+		using var process = new Process
 		{
 			StartInfo = new()
 			{
@@ -24,10 +24,13 @@ internal class PortQuery
 			}
 		};
 		_ = process.Start();
+		List<Process> processes = ProcessHelper.GetNonSystemProcesses();
+		var output = process.StandardOutput.ReadToEnd();
+		process.WaitForExit();
 
-		var processes = Process.GetProcesses().Where(p => !ProcessHelper.IsSystemProcess(p)).ToList();
 		Query = [];
-		foreach (var row in process.StandardOutput.ReadToEnd().Split("\r\n", StringSplitOptions.RemoveEmptyEntries).Skip(2))
+		HashSet<int> usedProcessIds = [];
+		foreach (var row in output.Split("\r\n", StringSplitOptions.RemoveEmptyEntries).Skip(2))
 		{
 			var elements = row.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 			var localAddress = elements[1];
@@ -40,6 +43,12 @@ internal class PortQuery
 
 			// There should be only one process using that address and port
 			Query[localAddress] = pr;
+			_ = usedProcessIds.Add(pid);
+		}
+
+		foreach (var p in processes.Where(p => !usedProcessIds.Contains(p.Id)))
+		{
+			p.Dispose();
 		}
 	}
 
@@ -62,6 +71,7 @@ internal class PortQuery
 
 		if (!string.IsNullOrWhiteSpace(search))
 		{
+			// Do not dispose here: processes are shared across multiple ports in Query and may still be referenced by other results.
 			_ = results.RemoveAll(r => r.Score <= 0);
 		}
 
