@@ -22,6 +22,7 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 	private bool _showShellExplorer;
 	private string? _portIcon;
 	private string? _processIcon;
+	private List<Process>? _previousProcesses;
 
 	public IEnumerable<PluginAdditionalOption> AdditionalOptions =>
 	[
@@ -57,13 +58,20 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 
 	public List<Result> Query(Query query)
 	{
+		// Every query fetches a fresh snapshot of processes; dispose the handles from the
+		// previous snapshot now that they're no longer referenced by any displayed result.
+		DisposePreviousProcesses();
+
 		var search = query.Search;
+		List<Result> results;
 		if (search.StartsWith(':'))
 		{
-			return new PortQuery().GetMatchingResults(search[1..], query.RawQuery, _showCommandLine, _portIcon!, _context!);
+			results = new PortQuery().GetMatchingResults(search[1..], query.RawQuery, _showCommandLine, _portIcon!, _context!);
+			_previousProcesses = [.. results.Select(r => r.ContextData).OfType<Process>().Distinct()];
+			return results;
 		}
 
-		List<Result> results = ProcessQuery.GetMatchingResults(search, query.RawQuery, _showCommandLine, _showShellExplorer, _processIcon!, _context!);
+		results = ProcessQuery.GetMatchingResults(search, query.RawQuery, _showCommandLine, _showShellExplorer, _processIcon!, _context!);
 		results.Reverse();
 
 		// When there are multiple results AND all of them are instances of the same executable
@@ -97,7 +105,23 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 			});
 		}
 
+		_previousProcesses = [.. results.Select(r => r.ContextData).OfType<Process>().Distinct()];
 		return results;
+	}
+
+	private void DisposePreviousProcesses()
+	{
+		if (_previousProcesses is null)
+		{
+			return;
+		}
+
+		foreach (var p in _previousProcesses)
+		{
+			p.Dispose();
+		}
+
+		_previousProcesses = null;
 	}
 
 	public void Init(PluginInitContext context)
@@ -151,6 +175,8 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 			{
 				_context.API.ThemeChanged -= OnThemeChanged;
 			}
+
+			DisposePreviousProcesses();
 
 			_disposed = true;
 		}
