@@ -26,7 +26,7 @@ internal static class ProcessHelper
 		"wmiprvse",
 	];
 
-	private static bool IsSystemProcess(Process p) => SystemProcessList.Contains(p.ProcessName.ToLower());
+	private static bool IsSystemProcess(Process p) => SystemProcessList.Contains(p.ProcessName, StringComparer.OrdinalIgnoreCase);
 
 	public static uint GetProcessIDFromWindowHandle(IntPtr hwnd)
 	{
