@@ -45,9 +45,6 @@
         <Reference Include="Wox.Plugin">
             <HintPath>.\Lib\Wox.Plugin.dll</HintPath>
         </Reference>
-        <Reference Include="System.Management">
-            <HintPath>.\Lib\System.Management.dll</HintPath>
-        </Reference>
     </ItemGroup>
 
     <ItemGroup>

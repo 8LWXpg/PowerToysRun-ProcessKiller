@@ -1,8 +1,8 @@
-using Community.PowerToys.Run.Plugin.ProcessKiller.Properties;
-using Microsoft.Win32.SafeHandles;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
+using Community.PowerToys.Run.Plugin.ProcessKiller.Properties;
+using Microsoft.Win32.SafeHandles;
 using Windows.Win32;
 using Wox.Infrastructure;
 using Wox.Plugin;
@@ -12,10 +12,10 @@ namespace Community.PowerToys.Run.Plugin.ProcessKiller;
 
 public class ProcessResult : Result
 {
-	public ProcessResult(Process process, MatchResult matchResult, CommandLineQuery? commandLineQuery, string rawQuery, bool showCommandLine, string fallbackIcon, PluginInitContext context)
+	public ProcessResult(Process process, MatchResult matchResult, string rawQuery, bool showCommandLine, string fallbackIcon, PluginInitContext context)
 	{
 		var gotPath = TryGetProcessFilename(process, out var path);
-		var commandLine = commandLineQuery?.GetCommandLine(process.Id);
+		var commandLine = showCommandLine ? ProcessHelper.GetCommandLine(process) : null;
 
 		Title = $"{process.ProcessName} - {process.Id}";
 		SubTitle = path;

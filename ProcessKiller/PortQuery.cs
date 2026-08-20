@@ -46,7 +46,7 @@ internal class PortQuery
 			_ = usedProcessIds.Add(pid);
 		}
 
-		foreach (var p in processes.Where(p => !usedProcessIds.Contains(p.Id)))
+		foreach (Process? p in processes.Where(p => !usedProcessIds.Contains(p.Id)))
 		{
 			p.Dispose();
 		}
@@ -54,14 +54,12 @@ internal class PortQuery
 
 	public List<Result> GetMatchingResults(string search, string rawQuery, bool showCommandLine, string fallbackIcon, PluginInitContext context)
 	{
-		CommandLineQuery? commandLineQuery = showCommandLine ? new() : null;
-
 		List<Result> results = [.. Query
 			.Select(e =>
 			{
 				MatchResult matchResult = StringMatcher.FuzzySearch(search, e.Key);
 				Process process = e.Value;
-				var result = new ProcessResult(process, matchResult, commandLineQuery, rawQuery, showCommandLine, fallbackIcon, context)
+				var result = new ProcessResult(process, matchResult, rawQuery, showCommandLine, fallbackIcon, context)
 				{
 					Title = e.Key,
 					QueryTextDisplay = $":{search}"

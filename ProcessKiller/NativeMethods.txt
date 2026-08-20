@@ -1,1 +1,4 @@
 QueryFullProcessImageName
+NtQueryInformationProcess
+UNICODE_STRING
+STATUS_INFO_LENGTH_MISMATCH

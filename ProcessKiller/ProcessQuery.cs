@@ -12,18 +12,17 @@ public static class ProcessQuery
 	{
 		var excludeId = showShellExplorer ? null : (int?)ProcessHelper.GetProcessIDFromWindowHandle(NativeMethods.GetShellWindow());
 		List<Process> processes = ProcessHelper.GetNonSystemProcesses(excludeId);
-		CommandLineQuery? commandLineQuery = showCommandLine ? new() : null;
 
 		List<Result> results = processes
 			.ConvertAll(p =>
 			{
 				MatchResult matchResult = StringMatcher.FuzzySearch(search, $"{p.ProcessName} - {p.Id}");
-				return (Result)new ProcessResult(p, matchResult, commandLineQuery, rawQuery, showCommandLine, fallbackIcon, context);
+				return (Result)new ProcessResult(p, matchResult, rawQuery, showCommandLine, fallbackIcon, context);
 			});
 
 		if (!string.IsNullOrWhiteSpace(search))
 		{
-			foreach (var r in results.Where(r => r.Score <= 0))
+			foreach (Result? r in results.Where(r => r.Score <= 0))
 			{
 				((Process)r.ContextData).Dispose();
 			}
