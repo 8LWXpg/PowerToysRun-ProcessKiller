@@ -1,8 +1,8 @@
+using System.Diagnostics;
+using System.Windows.Controls;
 using Community.PowerToys.Run.Plugin.ProcessKiller.Properties;
 using ManagedCommon;
 using Microsoft.PowerToys.Settings.UI.Library;
-using System.Diagnostics;
-using System.Windows.Controls;
 using Wox.Plugin;
 
 namespace Community.PowerToys.Run.Plugin.ProcessKiller;
@@ -116,7 +116,7 @@ public class Main : IPlugin, IPluginI18n, ISettingProvider, IReloadable, IDispos
 			return;
 		}
 
-		foreach (var p in _previousProcesses)
+		foreach (Process p in _previousProcesses)
 		{
 			p.Dispose();
 		}
